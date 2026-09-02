@@ -247,9 +247,9 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .deep-forest { fill:#0b2828; stroke:#31554c; stroke-width:2.5; opacity:.88; }
 .river { filter:drop-shadow(0 0 12px rgba(77,143,145,.16)); }
 .river-ripples { animation:river-glint 5s ease-in-out infinite alternate; }
-.background-ufo { filter: drop-shadow(0 0 10px rgba(116,184,189,.22)); }
+.background-ufo { filter: drop-shadow(0 4px 8px rgba(0,0,0,.32)) drop-shadow(0 0 8px rgba(116,184,189,.14)); }
 .ufo-lights { fill:#eab94e; animation:ufo-lights 4.8s steps(1) infinite; }
-.tent-peekers { animation: tent-peek 9s ease-in-out infinite; }
+.tent-peekers { transform:none; }
 .tent-dog { animation: dog-look 6s -1s ease-in-out infinite; transform-box: view-box; transform-origin: 949px 620px; }
 .camera-glint { animation:camera-snapshot 8s steps(1) infinite; }
 .camper { filter: drop-shadow(0 6px 8px rgba(0,0,0,.22)); }
@@ -261,14 +261,14 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .embers circle { animation: ember-rise 2.2s ease-out infinite; }.embers circle:nth-child(2) { animation-delay: -.8s; }.embers circle:nth-child(3) { animation-delay: -1.5s; }
 .smoke-number { font-family:var(--smoke-font); font-size:var(--smoke-size); font-weight:var(--smoke-weight); letter-spacing:var(--smoke-tracking); transform-box:fill-box; transform-origin:center bottom; }
 .smoke-number-haze { fill:none; stroke:#b9c8c5; stroke-width:18; opacity:.2; animation:smoke-haze 6s ease-in-out infinite alternate; }
-.smoke-number-main { fill:#d4dedb; opacity:.76; animation:smoke-number-form 2.4s cubic-bezier(.5,0,.25,1) both,smoke-drift 7s 2.4s ease-in-out infinite alternate; }
+.smoke-number-entry { transform-box:fill-box; transform-origin:center bottom; animation:smoke-number-form 2.4s cubic-bezier(.5,0,.25,1) both; }
+.smoke-number-main { fill:#d4dedb; opacity:.76; animation:smoke-drift 7s 2.4s ease-in-out infinite alternate; }
 .smoke-thread { animation: smoke-thread 4s ease-in-out infinite; }
 @keyframes camp-aurora { 0% { opacity:.18; translate:-2% 3px; } 50% { opacity:.42; } 100% { opacity:.25; translate:2% -6px; } }
 @keyframes camp-twinkle { 0%,100% { opacity:.3; scale:.7; } 50% { opacity:1; scale:1.3; } }
 @keyframes moon-breathe { 0%,100% { opacity:.92; } 50% { opacity:1; } }
 @keyframes river-glint { from { opacity:.3;translate:-3px 0; } to { opacity:.68;translate:4px 0; } }
 @keyframes ufo-lights { 0%,100% { opacity:.25; } 18%,72% { opacity:.9; } 20%,28% { opacity:.4; } }
-@keyframes tent-peek { 0%,12%,100% { translate:0 18px; } 20%,84% { translate:0; } 90% { translate:0 9px; } }
 @keyframes dog-look { 0%,35%,100% { rotate:0deg; } 50%,68% { rotate:-5deg; } }
 @keyframes camera-snapshot { 0%,66%,69%,100% { opacity:1; } 67% { opacity:.1; } 68% { opacity:1; } }
 @keyframes wing-left { 0%,100% { rotate:0deg; } 50% { rotate:-4deg; } } @keyframes wing-right { 0%,100% { rotate:0deg; } 50% { rotate:4deg; } }
@@ -276,7 +276,7 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 @keyframes fire-dance { from { scale:.92 1; rotate:-2deg; } to { scale:1.04 .92; rotate:3deg; } }
 @keyframes ember-rise { 0% { opacity:0; translate:0 14px; scale:.5; } 30% { opacity:1; } 100% { opacity:0; translate:8px -40px; scale:.15; } }
 @keyframes smoke-number-form { from { opacity:0;translate:0 32px;scale:.96 .82; } to { opacity:.76;translate:0;scale:1; } }
-@keyframes smoke-drift { 0% { translate:-2px 0; rotate:-.7deg; } 100% { translate:3px -7px; rotate:.8deg; } }
+@keyframes smoke-drift { 0% { translate:0; rotate:0deg; } 100% { translate:3px -7px; rotate:.8deg; } }
 @keyframes smoke-haze { from { opacity:.1;translate:-4px 2px; } to { opacity:.22;translate:5px -7px; } }
 @keyframes smoke-thread { 0%,100% { opacity:.3; translate:0 4px; } 50% { opacity:.65; translate:3px -4px; } }
 @media (max-width: 760px) {
