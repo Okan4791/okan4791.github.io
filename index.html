@@ -4,15 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Michael Bolens builds inspectable tools for Linux, self-hosting, desktop automation, and gaming.">
-  <meta name="theme-color" content="#edf4f3">
+  <meta name="theme-color" content="#edf4f3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#102322" media="(prefers-color-scheme: dark)">
   <meta property="og:title" content="Michael Bolens | systems builder">
   <meta property="og:description" content="Practical tools, close to the system.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://bolens.github.io/">
+  <meta property="og:site_name" content="Michael Bolens">
+  <meta name="twitter:card" content="summary">
   <title>Michael Bolens | systems builder</title>
+  <link rel="canonical" href="https://bolens.github.io/">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/site.css">
-  <script src="assets/site.js" defer></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Michael Bolens","url":"https://bolens.github.io/","sameAs":["https://github.com/bolens"],"knowsAbout":["Linux","TypeScript","Rust","Go","QML","self-hosting","desktop automation"]}</script>
+  <script type="speculationrules">{"prefetch":[{"source":"list","urls":["/work/","/about/"],"eagerness":"conservative"}]}</script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -21,11 +26,11 @@
     <nav aria-label="Primary navigation">
       <a href="#selected-work">Work</a>
       <a href="about/">About</a>
-      <a class="nav-cta" href="https://github.com/bolens">GitHub <span aria-hidden="true">↗</span></a>
+      <a class="nav-cta" rel="me" href="https://github.com/bolens">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <section class="hero wrap" aria-labelledby="hero-title">
       <div class="hero-copy" data-reveal>
         <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Systems builder · Lakewood, Colorado</p>
@@ -173,7 +178,7 @@
   </main>
 
   <footer class="site-footer wrap">
-    <p>Michael Bolens <span aria-hidden="true">·</span> <span id="year">2026</span></p>
+    <p>Michael Bolens <span aria-hidden="true">·</span> 2026</p>
     <a href="#main">Back to top <span aria-hidden="true">↑</span></a>
   </footer>
 </body>

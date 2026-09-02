@@ -1,6 +1,6 @@
 # bolens.github.io
 
-Michael Bolens' portfolio, built with semantic HTML, CSS, inline SVG, and a small progressively enhanced JavaScript file.
+Michael Bolens' portfolio, built with semantic HTML, CSS, and inline SVG. It has no client-side JavaScript dependency.
 
 ## Preview
 

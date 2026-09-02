@@ -9,6 +9,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; background: var(--paper); }
 body { margin: 0; color: var(--ink); background: var(--paper); font: 400 1rem/1.55 var(--sans); text-rendering: optimizeLegibility; }
+main:focus { outline: 0; }
 a { color: inherit; }
 svg { display: block; max-width: 100%; }
 .wrap { width: var(--wrap); margin-inline: auto; }
@@ -84,7 +85,11 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .site-footer { display: flex; justify-content: space-between; gap: 2rem; padding-block: 2rem; border-top: 1px solid var(--ink); font-size: .76rem; font-weight: 700; }.site-footer p { margin: 0; }.site-footer a { text-underline-offset: .25rem; }
 .inner-page { padding-block: clamp(5rem, 10vw, 9rem); }.page-intro { max-width: 950px; }.page-intro .lede { max-width: 690px; }.about-grid { display: grid; grid-template-columns: .8fr 1.4fr; gap: clamp(3rem, 8vw, 8rem); margin-top: 8rem; padding-top: 4rem; border-top: 1px solid var(--line); }.prose h3 { margin: 0 0 .7rem; font: 400 1.75rem var(--serif); }.prose p { margin: 0 0 3rem; color: var(--muted); font-size: 1.08rem; }.availability { margin-top: 5rem; padding: clamp(2rem, 6vw, 5rem); background: var(--ink); color: var(--snow); }.availability h2 { max-width: 800px; }.availability .button { margin-top: 2.5rem; border-color: var(--snow); background: var(--snow); color: var(--ink); }.availability .button:hover { color: var(--snow); background: var(--copper); border-color: var(--copper); }
 .index-list { margin-top: 7rem; border-top: 1px solid var(--ink); }.index-list a { display: grid; grid-template-columns: 1fr auto 2rem; gap: 2rem; align-items: center; padding: 1.8rem .5rem; border-bottom: 1px solid var(--line); text-decoration: none; transition: padding .2s, background .2s; }.index-list a:hover { padding-inline: 1.2rem; background: var(--snow); }.index-list span { display: grid; gap: .35rem; }.index-list b { font: 400 clamp(1.4rem, 3vw, 2.25rem) var(--serif); }.index-list small { color: var(--muted); font-size: .83rem; }.index-list i { color: var(--muted); font: normal 700 .67rem var(--mono); text-transform: uppercase; }.index-list strong { font-size: 1.3rem; }
-.reveal-ready [data-reveal] { opacity: 0; translate: 0 24px; transition: opacity .7s ease, translate .7s cubic-bezier(.2,.8,.2,1); }.reveal-ready [data-reveal].is-visible { opacity: 1; translate: 0; }
+.work-section, .toolbox, .closing, .about-grid, .availability, .index-list { content-visibility: auto; contain-intrinsic-block-size: auto 800px; }
+@supports (animation-timeline: view()) {
+  [data-reveal]:not(.hero-copy):not(.signal-map) { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 22%; }
+  @keyframes reveal { from { opacity: .01; translate: 0 20px; } to { opacity: 1; translate: 0; } }
+}
 @view-transition { navigation: auto; }
 ::view-transition-old(root) { animation: .22s ease both fade-out; } ::view-transition-new(root) { animation: .38s .08s ease both fade-in; }
 @keyframes fade-out { to { opacity: 0; transform: translateY(-8px); }} @keyframes fade-in { from { opacity: 0; transform: translateY(10px); }}
@@ -101,5 +106,13 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; --paper: #102322; --snow: #152b29; --ink: #eaf3ef; --muted: #b8c9c5; --copper: #ef795c; --lichen: #a8c49a; --line: #3b5652; }
+  .project-visual { background: #1d3734; }
+  .visual-ddns .orbit ellipse { stroke: #68807c; }
+  .visual-ddns rect, .visual-shield .shield, .visual-devices rect { fill: #091817; }
+  .map-node circle:first-child { filter: none; }
+}
 @media (prefers-contrast: more) { :root { --muted: #2e4442; --line: #718784; } }
+@media (prefers-color-scheme: dark) and (prefers-contrast: more) { :root { --muted: #d4dedb; --line: #78908c; } }
 @media print { nav,.hero-actions,.all-work,.site-footer a { display: none; } .hero { min-height: auto; }.project-link { break-inside: avoid; } }
