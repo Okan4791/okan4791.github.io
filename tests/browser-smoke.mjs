@@ -66,12 +66,35 @@ try {
       const target=document.querySelector(${JSON.stringify(selector)});
       const box=target.getBoundingClientRect();
       window.scrollTo(0,box.top+scrollY-(innerHeight-box.height)/2);
-      target.querySelectorAll('svg').forEach((svg)=>svg.setCurrentTime?.(${time / 1000}));
-      document.getAnimations().filter((animation)=>target.contains(animation.effect?.target)).forEach((animation)=>{animation.pause();animation.currentTime=${time}});
+    ` });
+    await new Promise((done) => setTimeout(done, 100));
+    await send('Runtime.evaluate', { expression: `
+      const target=document.querySelector(${JSON.stringify(selector)});
+      document.getAnimations().filter((animation)=>target.contains(animation.effect?.target)).forEach((animation)=>{try{animation.pause();animation.currentTime=${time}}catch{}});
+      target.querySelectorAll('svg').forEach((svg)=>{svg.pauseAnimations?.();svg.setCurrentTime?.(${time / 1000})});
     ` });
     await new Promise((done) => setTimeout(done, 100));
     const capture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true });
     writeFileSync(`/tmp/bolens-${name}-${width}-${time}.png`, Buffer.from(capture.data, 'base64'));
+  };
+  const captureSequence = async (width, name, selector, times) => {
+    await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
+    await new Promise((done) => setTimeout(done, 200));
+    await send('Runtime.evaluate', { expression: `
+      document.documentElement.style.scrollBehavior='auto';
+      const target=document.querySelector(${JSON.stringify(selector)});
+      const box=target.getBoundingClientRect();
+      window.scrollTo(0,box.top+scrollY-(innerHeight-box.height)/2);
+    ` });
+    await new Promise((done) => setTimeout(done, 100));
+    await send('Runtime.evaluate', { expression: `document.querySelector(${JSON.stringify(selector)}).querySelectorAll('svg').forEach((svg)=>svg.unpauseAnimations?.())` });
+    const started = Date.now();
+    for (const time of times) {
+      const remaining = time - (Date.now() - started);
+      if (remaining > 0) await new Promise((done) => setTimeout(done, remaining));
+      const capture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true });
+      writeFileSync(`/tmp/bolens-${name}-${width}-${time}.png`, Buffer.from(capture.data, 'base64'));
+    }
   };
   await Promise.all(['Page.enable', 'Runtime.enable', 'Network.enable', 'Log.enable'].map((method) => send(method)));
 
@@ -92,8 +115,7 @@ try {
       if (value.h1 !== 1 || !value.main || value.overflow || !value.title) throw new Error(`${width}px ${route}: ${JSON.stringify(value)}`);
     }
     if (captureEvidence) {
-      await capturePhase(width, 'hobbies', '#off-the-clock', 0);
-      await capturePhase(width, 'hobbies', '#off-the-clock', 1600);
+      await captureSequence(width, 'hobbies', '#off-the-clock', [0, 400, 800, 1600, 2600, 4800, 6200, 7000, 10000, 12000, 14000, 16000, 19000, 22000]);
       await capturePhase(width, 'uddns', '.visual-ddns', 0);
       await capturePhase(width, 'uddns', '.visual-ddns', 1800);
     }
@@ -111,16 +133,38 @@ try {
     const animation=wheel.getAnimations()[0];animation.pause();animation.currentTime=0;
     const wheelStart=getComputedStyle(wheel).rotate;
     animation.currentTime=1600;const wheelEnd=getComputedStyle(wheel).rotate;
-    return {packetTravel:Math.hypot(packetEnd.x-packetStart.x,packetEnd.y-packetStart.y),wheelStart,wheelEnd,frame:getComputedStyle(frame).transform};
+    const hobby=document.querySelector('.hobby-flight-layer');const discForm=document.querySelector('.traveler-disc');const ufoForm=document.querySelector('.traveler-ufo');
+    const center=(box)=>({x:box.x+box.width/2,y:box.y+box.height/2});
+    hobby.setCurrentTime(0);const discStart=center(discForm.getBoundingClientRect());
+    hobby.setCurrentTime(14);const discMiddle=center(discForm.getBoundingClientRect());
+    hobby.setCurrentTime(20.2);const discEnd=center(discForm.getBoundingClientRect());
+    const basket=center(document.querySelector('.disc-basket-rim').getBoundingClientRect());
+    for(const form of [discForm,ufoForm]){const formAnimation=form.getAnimations()[0];formAnimation.pause();formAnimation.currentTime=2600}
+    const discOpacity=Number(getComputedStyle(discForm).opacity);const ufoOpacity=Number(getComputedStyle(ufoForm).opacity);
+    const tapForm=document.querySelector('.beer-tap');const tapAnimation=tapForm.getAnimations()[0];tapAnimation.pause();tapAnimation.currentTime=14000;
+    const bigfoot=document.querySelector('.camp-bigfoot');const bigfootAnimation=bigfoot.getAnimations()[0];bigfootAnimation.pause();bigfootAnimation.currentTime=4800;
+    const rider=document.querySelector('.bike-bigfoot-rider');const riderAnimation=rider.getAnimations()[0];riderAnimation.pause();riderAnimation.currentTime=7000;
+    const droppedBigfoot=document.querySelector('.ufo-bigfoot');const dropAnimation=droppedBigfoot.getAnimations()[0];dropAnimation.pause();dropAnimation.currentTime=6200;
+    const arm=document.querySelector('.throwing-arm');const armAnimation=arm.getAnimations()[0];armAnimation.pause();armAnimation.currentTime=0;const armStart=getComputedStyle(arm).rotate;armAnimation.currentTime=800;const armEnd=getComputedStyle(arm).rotate;
+    const labels=[...document.querySelectorAll('.hobby-route li span')].map((label)=>label.textContent);
+    const dimensions=(element)=>{const box=element.getBoundingClientRect();return {x:box.x,y:box.y,width:box.width,height:box.height,fill:getComputedStyle(element).fill,stroke:getComputedStyle(element).stroke}};
+    return {packetTravel:Math.hypot(packetEnd.x-packetStart.x,packetEnd.y-packetStart.y),discTravel:Math.hypot(discMiddle.x-discStart.x,discMiddle.y-discStart.y),discReturn:discEnd.x<discMiddle.x,landingError:Math.hypot(discEnd.x-basket.x,discEnd.y-basket.y),discOpacity,ufoOpacity,tapOpacity:Number(getComputedStyle(tapForm).opacity),riderOpacity:Number(getComputedStyle(rider).opacity),dropOpacity:Number(getComputedStyle(droppedBigfoot).opacity),bigfootTranslate:getComputedStyle(bigfoot).translate,armStart,armEnd,wheelStart,wheelEnd,frame:getComputedStyle(frame).transform,ufoShell:dimensions(document.querySelector('.ufo-shell')),ufoBeam:dimensions(document.querySelector('.ufo-beam')),tap:dimensions(tapForm),rider:dimensions(rider),labels};
   })()`, returnByValue: true });
   const motionValue = motion.result.value;
-  if (motionValue.packetTravel < 10 || motionValue.wheelStart === motionValue.wheelEnd || motionValue.frame !== 'none') throw new Error(`SVG motion regression: ${JSON.stringify(motionValue)}`);
+  if (captureEvidence) console.log(`SVG motion evidence: ${JSON.stringify(motionValue)}`);
+  if (motionValue.packetTravel < 10 || motionValue.discTravel < 100 || !motionValue.discReturn || motionValue.landingError > 20 || motionValue.discOpacity > .1 || motionValue.ufoOpacity < .9 || motionValue.tapOpacity < .9 || motionValue.riderOpacity < .9 || motionValue.dropOpacity < .9 || motionValue.bigfootTranslate === 'none' || motionValue.bigfootTranslate === '0px' || motionValue.armStart === motionValue.armEnd || motionValue.wheelStart === motionValue.wheelEnd || motionValue.frame !== 'none' || motionValue.labels.join('|') !== 'Hiking|Camping|Cycling|Disc golf|Craft beer') throw new Error(`SVG motion regression: ${JSON.stringify(motionValue)}`);
 
   await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }, { name: 'prefers-reduced-motion', value: 'reduce' }] });
   await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
   await new Promise((done) => setTimeout(done, 150));
-  const preferences = await send('Runtime.evaluate', { expression: `({dark:matchMedia('(prefers-color-scheme: dark)').matches,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,ddns:getComputedStyle(document.querySelector('.ddns-packets')).display})`, returnByValue: true });
-  if (!preferences.result.value.dark || !preferences.result.value.reduced || preferences.result.value.ddns !== 'none') throw new Error(`preference emulation failed: ${JSON.stringify(preferences.result.value)}`);
+  const preferences = await send('Runtime.evaluate', { expression: `({dark:matchMedia('(prefers-color-scheme: dark)').matches,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,ddns:getComputedStyle(document.querySelector('.ddns-packets')).display,flight:getComputedStyle(document.querySelector('.hobby-traveler')).display,landed:getComputedStyle(document.querySelector('.hobby-landed-disc')).display})`, returnByValue: true });
+  if (!preferences.result.value.dark || !preferences.result.value.reduced || preferences.result.value.ddns !== 'none' || preferences.result.value.flight !== 'none' || preferences.result.value.landed === 'none') throw new Error(`preference emulation failed: ${JSON.stringify(preferences.result.value)}`);
+  if (captureEvidence) {
+    await send('Runtime.evaluate', { expression: `document.documentElement.style.scrollBehavior='auto';document.querySelector('#off-the-clock').scrollIntoView({block:'end'})` });
+    await new Promise((done) => setTimeout(done, 100));
+    const reducedCapture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true });
+    writeFileSync('/tmp/bolens-hobbies-reduced-dark-1440.png', Buffer.from(reducedCapture.data, 'base64'));
+  }
 
   await send('Emulation.setEmulatedMedia', { media: 'print', features: [] });
   const print = await send('Runtime.evaluate', { expression: `({print:matchMedia('print').matches,visibility:getComputedStyle(document.querySelector('.work-section')).contentVisibility,animations:document.getAnimations().length})`, returnByValue: true });

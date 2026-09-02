@@ -92,22 +92,43 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .hobbies { display: grid; grid-template-columns: minmax(13rem,.8fr) 2fr; align-items: center; gap: clamp(2rem,6vw,6rem); padding-block: clamp(3rem,6vw,4.5rem); border-top: 1px solid var(--line); }
 .hobbies-heading h2 { max-width: 22rem; margin: 0; font: 400 clamp(1.7rem,2.8vw,2.65rem)/1.03 var(--serif); letter-spacing: -.04em; }
 .hobby-route { position: relative; min-width: 0; isolation: isolate; }
-.hobby-trail { position: absolute; z-index: -1; inset: 5px 0 auto; width: 100%; height: 96px; overflow: visible; }
+.hobby-trail,.hobby-flight-layer { position: absolute; inset: 5px 0 auto; width: 100%; height: 96px; overflow: visible; pointer-events: none; }.hobby-trail { z-index: -1; }.hobby-flight-layer { z-index: 2; }
 .hobby-trail path { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-dasharray: .018 .014; vector-effect: non-scaling-stroke; }
-.hobby-runner { fill: var(--copper); stroke: var(--paper); stroke-width: 3; vector-effect: non-scaling-stroke; }
+.hobby-traveler,.hobby-landed-disc { fill: var(--copper); stroke: var(--paper); stroke-width: 2.5; vector-effect: non-scaling-stroke; }.traveler-disc path { stroke: var(--paper); stroke-width: 1.5; }.hobby-landed-disc { display: none; }
+.hobby-thrower { fill: var(--paper); stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }.hobby-thrower path { fill: none; }.throwing-arm { transform-box: view-box; transform-origin: 25px 47px; animation: disc-throw 24s cubic-bezier(.2,.8,.3,1) infinite; }
+.traveler-disc { animation: traveler-disc-form 24s linear infinite; }.traveler-ufo { opacity: 0; animation: traveler-ufo-form 24s linear infinite; }.traveler-ufo .ufo-shell { fill: var(--ink); stroke: var(--copper); stroke-width: 2.5; }.traveler-ufo .ufo-beam { fill: color-mix(in srgb,var(--copper) 45%,transparent); stroke: var(--copper); stroke-width: 2.5; transform-box: fill-box; transform-origin: center top; animation: ufo-beam 1.8s ease-in-out infinite; }
+.ufo-bigfoot { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; opacity: 0; animation: bigfoot-drop 24s ease-in infinite; }
+.beer-tap { opacity: 0; animation: traveler-tap-form 24s linear infinite; }.hobby-route .beer-tap path:first-child { fill: var(--copper); stroke: var(--paper); stroke-width: 2; }.hobby-route .beer-tap .tap-stream { fill: none; stroke: #c97b24; stroke-width: 2.5; stroke-dasharray: 3 2; animation: tap-flow 1s linear infinite; }
 .hobby-route ul { display: grid; grid-template-columns: repeat(5,1fr); gap: clamp(.35rem,1.3vw,1rem); margin: 0; padding: 0; list-style: none; }
 .hobby-route li { display: grid; justify-items: center; gap: .65rem; min-width: 0; color: var(--ink); font: 700 clamp(.66rem,1vw,.75rem)/1.2 var(--mono); letter-spacing: .06em; text-align: center; text-transform: uppercase; }
+.hobby-hiking { animation: scene-hiking 24s linear infinite; }.hobby-camping { animation: scene-camping 24s linear infinite; }.hobby-cycling { animation: scene-cycling 24s linear infinite; }.hobby-disc-golf { animation: scene-disc-golf 24s linear infinite; }.hobby-craft-beer { animation: scene-craft-beer 24s linear infinite; }
 .hobby-route li:nth-child(even) { translate: 0 1.6rem; }
 .hobby-route li svg { width: clamp(3.3rem,5.5vw,4.25rem); padding: .65rem; overflow: visible; border: 1px solid var(--line); border-radius: 50%; background: var(--paper); fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .camp-star { transform-box: fill-box; transform-origin: center; animation: hobby-twinkle 3.6s ease-in-out infinite; }
+.camp-bigfoot { transform-box: fill-box; transform-origin: center bottom; animation: bigfoot-abduction 24s linear infinite; }
 .hike-sun { transform-box: fill-box; transform-origin: center; animation: hobby-rise 4s ease-in-out infinite; }
-.bike-wheel, .bike-crank { transform-box: view-box; animation: hobby-pedal 5s linear infinite; }.bike-wheel-rear { transform-origin: 12px 34px; }.bike-wheel-front { transform-origin: 37px 34px; }.bike-crank { transform-origin: 21px 34px; animation-duration: 2.5s; }
-.flying-disc { transform-box: fill-box; transform-origin: center; animation: hobby-disc 3.8s ease-in-out infinite; }
+.bike-wheel, .bike-crank { transform-box: view-box; animation: hobby-pedal 5s linear infinite; }.bike-wheel-rear { transform-origin: 12px 34px; }.bike-wheel-front { transform-origin: 37px 34px; }.bike-crank { transform-origin: 25px 34px; animation-duration: 2.5s; }
+.bike-bigfoot-rider { opacity: 0; stroke: var(--copper); stroke-width: 2.6; transform-box: fill-box; transform-origin: center bottom; animation: bike-rider 24s ease-in-out infinite; }.bike-bigfoot-rider circle,.bike-bigfoot-rider .rider-body { fill: var(--copper); }
 .beer-bubble { transform-box: fill-box; transform-origin: center; animation: hobby-bubble 3.2s ease-in infinite; }.bubble-two { animation-delay: 1.4s; }
 @keyframes hobby-twinkle { 0%,100% { opacity: .45; scale: .78; } 50% { opacity: 1; scale: 1.12; } }
 @keyframes hobby-rise { 0%,100% { translate: 0 1px; rotate: -4deg; } 50% { translate: 0 -2px; rotate: 4deg; } }
 @keyframes hobby-pedal { to { rotate: 360deg; } }
-@keyframes hobby-disc { 0%,100% { translate: -2px 1px; rotate: -4deg; } 50% { translate: 3px -2px; rotate: 5deg; } }
+@keyframes traveler-disc-form { 0%,4%,35%,48%,69%,100% { opacity: 1; } 6%,33%,50%,67% { opacity: 0; } }
+@keyframes traveler-ufo-form { 0%,4%,35%,100% { opacity: 0; } 6%,33% { opacity: 1; } }
+@keyframes traveler-tap-form { 0%,48%,69%,100% { opacity: 0; } 51%,66% { opacity: 1; } }
+@keyframes ufo-beam { 0%,100% { opacity: .35; scale: .82 1; } 50% { opacity: .8; scale: 1 1; } }
+@keyframes tap-flow { to { stroke-dashoffset: -7; } }
+@keyframes disc-throw { 0% { rotate: -38deg; } 3.5%,100% { rotate: 0deg; } }
+@keyframes bigfoot-drop { 0%,22%,30%,100% { opacity: 0; translate: 0 -8px; scale: .7; } 24% { opacity: 1; translate: 0; scale: .85; } 28% { opacity: 1; translate: 0 15px; scale: 1; } }
+@keyframes bike-rider { 0%,24%,35%,100% { opacity: 0; translate: 0; } 27%,32% { opacity: 1; translate: 0 -1px; } 29.5% { opacity: 1; translate: 0 1px; } }
+@keyframes bigfoot-abduction { 0%,12% { opacity: 1; translate: 0; scale: 1; } 20% { opacity: 1; translate: 0 -13px; scale: .84; } 25%,98% { opacity: 0; translate: 0 -28px; scale: .55; } 100% { opacity: 1; translate: 0; scale: 1; } }
+@keyframes beer-fill { 0%,49% { opacity: 0; translate: 0 25px; } 52% { opacity: .82; } 65% { opacity: .88; translate: 0; } 70%,100% { opacity: 0; translate: 0 25px; } }
+@keyframes scene-hiking { 0%,9%,100% { color: var(--ink); } 2%,7% { color: var(--copper); } }
+@keyframes scene-camping { 0%,8%,28%,100% { color: var(--ink); } 11%,25% { color: var(--copper); } }
+@keyframes scene-cycling { 0%,23%,39%,100% { color: var(--ink); } 26%,36% { color: var(--copper); } }
+@keyframes scene-craft-beer { 0%,46%,71%,100% { color: var(--ink); } 50%,68% { color: var(--copper); } }
+@keyframes scene-disc-golf { 0%,79%,100% { color: var(--ink); } 84%,97% { color: var(--copper); } }
+.hobby-route .pint-clip-shape { fill: #000; stroke: none; }.hobby-route .beer-fill { fill: #c97b24; stroke: none; animation: beer-fill 24s linear infinite; }.hobby-route .beer-fill-foam { fill: #f3d9a2; stroke: none; animation: beer-fill 24s linear infinite; }
 @keyframes hobby-bubble { 0% { opacity: 0; translate: 0 4px; } 35% { opacity: 1; } 100% { opacity: 0; translate: 0 -8px; } }
 .site-footer { display: flex; justify-content: space-between; gap: 2rem; padding-block: 2rem; border-top: 1px solid var(--ink); font-size: .76rem; font-weight: 700; }.site-footer p { margin: 0; }.site-footer a { text-underline-offset: .25rem; }
 .inner-page { padding-block: clamp(5rem, 10vw, 9rem); }.page-intro { max-width: 950px; }.page-intro .lede { max-width: 690px; }.about-grid { display: grid; grid-template-columns: .8fr 1.4fr; gap: clamp(3rem, 8vw, 8rem); margin-top: 8rem; padding-top: 4rem; border-top: 1px solid var(--line); }.prose h3 { margin: 0 0 .7rem; font: 400 1.75rem var(--serif); }.prose p { margin: 0 0 3rem; color: var(--muted); font-size: 1.08rem; }.availability { margin-top: 5rem; padding: clamp(2rem, 6vw, 5rem); background: var(--ink); color: var(--snow); }.availability h2 { max-width: 800px; }.availability .button { margin-top: 2.5rem; border-color: var(--snow); background: var(--snow); color: var(--ink); }.availability .button:hover { color: var(--snow); background: var(--copper); border-color: var(--copper); }
@@ -129,7 +150,7 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .case-story .prose p { margin-bottom: 1.5rem; }.case-story code { font-family: var(--mono); font-size: .88em; }
 .case-next { display: grid; grid-template-columns: .55fr 1fr; justify-content: initial; align-items: baseline; gap: 2rem; padding-top: clamp(4rem, 8vw, 7rem); }
 .case-next a { font: 400 clamp(2rem, 5vw, 4.4rem)/1 var(--serif); text-decoration: none; letter-spacing: -.045em; }.case-next a:hover { color: var(--copper); }
-.work-section, .toolbox, .hobbies, .about-grid, .availability, .index-list { content-visibility: auto; contain-intrinsic-block-size: auto 800px; }
+.work-section, .toolbox, .about-grid, .availability, .index-list { content-visibility: auto; contain-intrinsic-block-size: auto 800px; }
 @supports (animation-timeline: view()) {
   [data-reveal]:not(.hero-copy):not(.signal-map) { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 22%; }
   @keyframes reveal { from { opacity: .01; translate: 0 20px; } to { opacity: 1; translate: 0; } }
@@ -145,14 +166,14 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
   .section-heading { grid-template-columns: 1fr; }.section-heading .eyebrow { margin-bottom: 0; }.project-list { grid-template-columns: 1fr; }.project-featured { grid-column: auto; }.project-featured .project-visual { aspect-ratio: 1.55 / 1; }
   .toolbox, .hobbies, .about-grid { grid-template-columns: 1fr; }.toolbox { gap: 2rem; }.hobbies { gap: 2rem; }
   .hobbies-heading { display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; align-items: start; }.hobbies-heading .eyebrow { margin: .3rem 0 0; }
-  .hobby-trail { display: none; }.hobby-route ul { grid-template-columns: repeat(5,1fr); }.hobby-route li:nth-child(even) { translate: none; }
+  .hobby-trail,.hobby-flight-layer { top: 0; }.hobby-route ul { grid-template-columns: repeat(5,1fr); }.hobby-route li:nth-child(even) { translate: none; }
   .index-list a { grid-template-columns: 1fr 1.5rem; gap: 1rem; }.index-list i { grid-row: 2; }.index-list strong { grid-column: 2; grid-row: 1 / span 2; }
   .case-facts { grid-template-columns: 1fr; }.case-facts div + div { border-top: 1px solid var(--line); }
   .case-story > section { grid-template-columns: 1fr; gap: 1.5rem; }.case-story > section .eyebrow { margin-bottom: 0; }.case-next { grid-template-columns: 1fr; gap: .8rem; }
 }
 @media (max-width: 430px) { .site-header nav a:first-child { display: none; } h1 { font-size: clamp(3.1rem, 16vw, 4.6rem); }.hero-actions { align-items: flex-start; flex-direction: column; }.signal-map { margin-inline: -8px; } }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }.hobby-runner,.ddns-packets { display: none; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }.hobby-traveler,.ddns-packets { display: none; }.hobby-landed-disc { display: block; }.hobby-route li,.throwing-arm { animation: none; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 @media (prefers-color-scheme: dark) {
   :root { color-scheme: dark; --paper: #102322; --snow: #152b29; --ink: #eaf3ef; --muted: #b8c9c5; --copper: #ef795c; --lichen: #a8c49a; --line: #3b5652; }
@@ -166,7 +187,7 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 @media (forced-colors: active) {
   :root { --paper: Canvas; --snow: Canvas; --ink: CanvasText; --muted: CanvasText; --copper: LinkText; --lichen: Highlight; --line: GrayText; }
   .button, .nav-cta { forced-color-adjust: none; background: ButtonFace; color: ButtonText; border-color: ButtonText; }
-  .signal-path, .case-route-line { stroke: LinkText; }.hobby-trail path { stroke: GrayText; }.hobby-runner { fill: Highlight; }.map-node .pulse { display: none; }.project-visual { border: 1px solid CanvasText; background: Canvas; }
+  .signal-path, .case-route-line { stroke: LinkText; }.hobby-trail > path { stroke: GrayText; }.hobby-traveler,.hobby-landed-disc { fill: Highlight; }.traveler-ufo .ufo-beam { fill: Canvas; stroke: Highlight; }.map-node .pulse { display: none; }.project-visual { border: 1px solid CanvasText; background: Canvas; }
 }
 @media print {
   nav,.hero-actions,.all-work,.site-footer a { display: none; }
