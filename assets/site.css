@@ -216,3 +216,93 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
   .work-section, .toolbox, .hobbies, .about-grid, .availability, .index-list { content-visibility: visible; contain-intrinsic-size: none; }
   *,*::before,*::after { animation: none !important; transition: none !important; }
 }
+
+/* 404 · cryptid night watch */
+.lost-page { min-height: 100svh; color: #edf5ef; background: #071522; }
+.lost-main { position: relative; min-height: 100svh; overflow: hidden; background: #071522; isolation: isolate; }
+.lost-copy { position: absolute; z-index: 3; top: clamp(1.5rem,5vw,4.5rem); left: max(1.25rem,calc((100vw - 1180px)/2)); width: min(35rem,calc(100vw - 2.5rem)); padding: clamp(1rem,2.2vw,1.7rem); border: 1px solid rgba(216,238,229,.22); border-radius: 3px; background: rgba(7,21,34,.76); box-shadow: 0 24px 70px rgba(0,0,0,.24); backdrop-filter: blur(8px); }
+.lost-copy .eyebrow { margin-bottom: .8rem; color: #a8c9bc; }
+.lost-copy h1 { font-size: clamp(3rem,6.2vw,6.5rem); text-shadow: 0 3px 18px rgba(0,0,0,.25); }
+.lost-copy h1 em { color: #ef795c; }
+.lost-lede { max-width: 31rem; margin: 1.1rem 0 1.4rem; color: #c5d6d2; font-size: clamp(.95rem,1.3vw,1.12rem); }
+.lost-button { border-color: #edf5ef; background: #edf5ef; color: #102322; }
+.lost-button:hover { border-color: #ef795c; color: #fff; }
+.cryptid-camp { position: absolute; inset: 0; margin: 0; display: grid; align-items: end; }
+.cryptid-camp svg { width: 100%; height: 100%; min-height: 620px; object-fit: cover; object-position: center bottom; }
+.cryptid-camp figcaption { position: absolute; right: clamp(1rem,3vw,2.5rem); bottom: 1rem; color: rgba(237,245,239,.7); font: 700 .67rem/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.aurora-ribbon { stroke-width: 34; opacity: .3; }
+.aurora-ribbon-one { stroke: #67e2b5; animation: camp-aurora 10s ease-in-out infinite alternate; }
+.aurora-ribbon-two { stroke: #7ed8cf; stroke-width: 25; animation: camp-aurora 12s -4s ease-in-out infinite alternate-reverse; }
+.aurora-ribbon-three { stroke: #a889d9; stroke-width: 18; animation: camp-aurora 14s -7s ease-in-out infinite alternate; }
+.camp-stars circle { transform-box: fill-box; transform-origin: center; animation: camp-twinkle 4s ease-in-out infinite; }
+.camp-stars circle:nth-child(3n+1) { animation-delay: -1.3s; }.camp-stars circle:nth-child(3n+2) { animation-delay: -2.6s; }
+.camp-moon { transform-box: fill-box; transform-origin: center; animation: moon-breathe 8s ease-in-out infinite; }
+.background-ufo { filter: drop-shadow(0 0 10px rgba(116,184,189,.22)); }
+.ufo-lights { fill:#eab94e; animation:ufo-lights 4.8s steps(1) infinite; }
+.tent-peekers { animation: tent-peek 9s ease-in-out infinite; }
+.tent-dog { animation: dog-look 6s -1s ease-in-out infinite; transform-box: view-box; transform-origin: 949px 620px; }
+.camper { filter: drop-shadow(0 6px 8px rgba(0,0,0,.22)); }
+.moth-wing { transform-box: view-box; }.wing-left { transform-origin: 752px 512px; animation: wing-left 6s ease-in-out infinite; }.wing-right { transform-origin: 758px 512px; animation: wing-right 6s ease-in-out infinite; }
+.roasting-arm { transform-box: view-box; animation: roast-turn 5s ease-in-out infinite; }
+.arm-bigfoot { transform-origin: 381px 523px; }.arm-alien { transform-origin: 469px 526px; animation-delay: -1.2s; }.arm-moth { transform-origin: 728px 526px; animation-delay: -2.4s; }.arm-dogman { transform-origin: 846px 527px; animation-delay: -3.6s; }
+.flame { transform-box: view-box; transform-origin: 608px 648px; }.flame-outer { animation: fire-dance .92s ease-in-out infinite alternate; }.flame-inner { animation: fire-dance .64s -.3s ease-in-out infinite alternate-reverse; }.flame-core { animation: fire-dance .48s -.16s ease-in-out infinite alternate; }
+.embers circle { animation: ember-rise 2.2s ease-out infinite; }.embers circle:nth-child(2) { animation-delay: -.8s; }.embers circle:nth-child(3) { animation-delay: -1.5s; }
+.smoke { stroke-width: 13; opacity: .72; filter: drop-shadow(0 0 8px rgba(223,239,233,.15)); stroke-dasharray: 1; stroke-dashoffset: 1; animation: smoke-draw 2.4s cubic-bezier(.5,0,.25,1) both,smoke-drift 7s 2.4s ease-in-out infinite alternate; }
+.smoke-zero { animation-delay: .2s,2.6s; }.smoke-four-right { animation-delay: .4s,2.8s; }
+.smoke-thread { animation: smoke-thread 4s ease-in-out infinite; }
+@keyframes camp-aurora { 0% { opacity:.18; translate:-2% 3px; } 50% { opacity:.42; } 100% { opacity:.25; translate:2% -6px; } }
+@keyframes camp-twinkle { 0%,100% { opacity:.3; scale:.7; } 50% { opacity:1; scale:1.3; } }
+@keyframes moon-breathe { 0%,100% { opacity:.92; } 50% { opacity:1; } }
+@keyframes ufo-lights { 0%,100% { opacity:.25; } 18%,72% { opacity:.9; } 20%,28% { opacity:.4; } }
+@keyframes tent-peek { 0%,12%,100% { translate:0 18px; } 20%,84% { translate:0; } 90% { translate:0 9px; } }
+@keyframes dog-look { 0%,35%,100% { rotate:0deg; } 50%,68% { rotate:-5deg; } }
+@keyframes wing-left { 0%,100% { rotate:0deg; } 50% { rotate:-4deg; } } @keyframes wing-right { 0%,100% { rotate:0deg; } 50% { rotate:4deg; } }
+@keyframes roast-turn { 0%,100% { rotate:-2deg; } 50% { rotate:3deg; } }
+@keyframes fire-dance { from { scale:.92 1; rotate:-2deg; } to { scale:1.04 .92; rotate:3deg; } }
+@keyframes ember-rise { 0% { opacity:0; translate:0 14px; scale:.5; } 30% { opacity:1; } 100% { opacity:0; translate:8px -40px; scale:.15; } }
+@keyframes smoke-draw { to { stroke-dashoffset:0; } }
+@keyframes smoke-drift { 0% { translate:-2px 0; rotate:-.7deg; } 100% { translate:3px -7px; rotate:.8deg; } }
+@keyframes smoke-thread { 0%,100% { opacity:.3; translate:0 4px; } 50% { opacity:.65; translate:3px -4px; } }
+@media (max-width: 760px) {
+  .lost-main { min-height: 100svh; display: grid; grid-template-rows: auto minmax(390px,1fr); }
+  .lost-copy { position: relative; top: auto; left: auto; width: auto; margin: 1rem; padding: 1rem; }
+  .lost-copy h1 { font-size: clamp(2.8rem,14vw,4.8rem); }
+  .lost-lede { margin-block: .8rem 1rem; }
+  .cryptid-camp { position: relative; min-height: 390px; margin-top: -1.5rem; overflow:hidden; }
+  .cryptid-camp svg { width:110%; height:auto; min-height:0; max-width:none; justify-self:center; align-self:start; margin-top:clamp(1.5rem,8vw,4rem); }
+  .cryptid-camp figcaption { display: none; }
+}
+@media (orientation: portrait) and (min-width: 431px) {
+  .lost-main { min-height:100svh; display:grid; grid-template-rows:auto minmax(480px,1fr); }
+  .lost-copy { position:relative; top:auto; left:auto; width:min(35rem,calc(100vw - 2rem)); margin:1rem; padding:clamp(1rem,2.5vw,1.7rem); }
+  .lost-copy h1 { font-size:clamp(3.5rem,9vw,6rem); }
+  .cryptid-camp { position:relative; min-height:480px; margin-top:-1rem; overflow:hidden; }
+  .cryptid-camp svg { width:112%; height:auto; min-height:0; max-width:none; justify-self:center; align-self:center; }
+  .cryptid-camp figcaption { display:none; }
+}
+@media (orientation: landscape) and (max-height: 650px) {
+  .lost-copy { top:1rem; left:1rem; width:min(24rem,44vw); padding:.75rem .9rem; }
+  .lost-copy .eyebrow { margin-bottom:.35rem; font-size:.62rem; }
+  .lost-copy h1 { font-size:clamp(2.3rem,5.5vw,3.2rem); }
+  .lost-lede { margin:.45rem 0 .65rem; font-size:.72rem; }
+  .lost-button { padding:.55rem .8rem; font-size:.72rem; }
+  .cryptid-camp svg { min-height:0; }
+  .cryptid-camp figcaption { bottom:.5rem; font-size:.56rem; }
+}
+@media (max-width: 430px) {
+  .lost-copy .eyebrow { font-size:.65rem; }.lost-copy h1 { line-height:.88; }
+  .lost-button { padding:.68rem .9rem; }
+  .cryptid-camp { min-height: 360px; }
+  .cryptid-camp svg { width:145%; align-self:center; margin-top:0; translate:-6vw 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lost-page *, .lost-page *::before, .lost-page *::after { animation:none !important; transition:none !important; }
+  .smoke { stroke-dashoffset:0; }
+  .tent-peekers { translate:0; }
+}
+@media (forced-colors: active) {
+  .lost-page { forced-color-adjust:none; }
+}
+@media print {
+  .lost-page { print-color-adjust:exact; }.lost-main { min-height:100vh; }.lost-button { display:none; }
+}
