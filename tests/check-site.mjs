@@ -28,6 +28,11 @@ for (const file of htmlFiles) {
   if (!/<title>[^<]+<\/title>/.test(html)) fail(file, 'missing non-empty title');
   if (!/<meta name="viewport"/.test(html)) fail(file, 'missing viewport metadata');
 
+  const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]));
+  for (const match of html.matchAll(/\bhref="#([^"]+)"/g)) {
+    if (!ids.has(match[1])) fail(file, `fragment link #${match[1]} has no matching id`);
+  }
+
   if (!isErrorPage) {
     for (const field of ['description', 'twitter:card', 'twitter:image']) {
       if (!new RegExp(`<meta name="${field}"`).test(html)) fail(file, `missing ${field} metadata`);
@@ -71,4 +76,4 @@ if (failures.length) {
   console.error(failures.join('\n'));
   process.exit(1);
 }
-console.log(`Checked ${htmlFiles.length} HTML files, ${canonicalUrls.size} canonical URLs, internal references, declarative JSON, and social-card dimensions.`);
+console.log(`Checked ${htmlFiles.length} HTML files, ${canonicalUrls.size} canonical URLs, internal and fragment references, declarative JSON, and social-card dimensions.`);
