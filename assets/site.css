@@ -328,6 +328,8 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
   :root[data-palette="glacier"]:not([data-theme]) { --paper:#10232f;--snow:#152c39;--ink:#eaf6fa;--muted:#b5cbd4;--copper:#70bce2;--lichen:#83b7aa;--line:#385767;--art-hot:#ff7d91;--art-warm:#f5bd63;--art-success:#72d3b5;--art-cool:#72c1df;--art-violet:#b89ae9;--art-panel:#081923;--art-panel-line:#5e91a6;--art-on-panel:#f5fcff;--art-track:#7195a4;--art-forest:#78b995; }
   :root[data-palette="signal"]:not([data-theme]) { --paper:#1d1729;--snow:#271f36;--ink:#f3edfa;--muted:#c9bdd8;--copper:#c09aef;--lichen:#78c7ae;--line:#514165;--art-hot:#ff7da9;--art-warm:#f2c16e;--art-success:#70d3b2;--art-cool:#74c5df;--art-violet:#cf9cff;--art-panel:#120d1b;--art-panel-line:#806a9e;--art-on-panel:#fdf9ff;--art-track:#8b78a2;--art-forest:#70b795; }
   .map-node circle:first-child { filter: none; }
+  :root:not([data-theme]) .availability { background:var(--snow); color:var(--ink); }
+  :root:not([data-theme]) .availability .button { border-color:var(--ink); background:var(--ink); color:var(--paper); }
   :root:not([data-theme]) .scene-night-only,:root:not([data-theme]) .hike-aurora,:root:not([data-theme]) .hike-moon,:root:not([data-theme]) .moon-crater,:root:not([data-theme]) .hike-stars,:root:not([data-theme]) .camp-moon,:root:not([data-theme]) .camp-sky-stars,:root:not([data-theme]) .camp-star { visibility:visible; }:root:not([data-theme]) .scene-day-only { visibility:hidden; }
 }
 :root[data-theme="day"] { color-scheme:light;--scene-sky:#d9eef4;--scene-sky-edge:#77a8b8;--scene-celestial:#e4b95f; }
@@ -337,6 +339,8 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 :root[data-palette="alpine"][data-theme="night"] { --paper:#102322;--snow:#152b29;--ink:#eaf3ef;--muted:#b8c9c5;--copper:#ef795c;--lichen:#a8c49a;--line:#3b5652;--art-hot:#ff8064;--art-warm:#f1c46c;--art-success:#79c99e;--art-cool:#8fcbd4;--art-violet:#bd9aeb;--art-panel:#081817;--art-panel-line:#688f89;--art-on-panel:#f3fbf8;--art-track:#718d88;--art-forest:#83b17f; }
 :root[data-palette="desert"][data-theme="night"] { --paper:#211914;--snow:#2c211a;--ink:#f7ead2;--muted:#cdbb9f;--copper:#ff7952;--lichen:#b3c578;--line:#5b4637;--art-hot:#ff8060;--art-warm:#f3bd5d;--art-success:#acd17b;--art-cool:#79c4cf;--art-violet:#c49bea;--art-panel:#160f0c;--art-panel-line:#9a7057;--art-on-panel:#fff8eb;--art-track:#a17e68;--art-forest:#a8bd70; }
 :root[data-palette="signal"][data-theme="night"] { --paper:#1d1729;--snow:#271f36;--ink:#f3edfa;--muted:#c9bdd8;--copper:#c09aef;--lichen:#78c7ae;--line:#514165;--art-hot:#ff7da9;--art-warm:#f2c16e;--art-success:#70d3b2;--art-cool:#74c5df;--art-violet:#cf9cff;--art-panel:#120d1b;--art-panel-line:#806a9e;--art-on-panel:#fdf9ff;--art-track:#8b78a2;--art-forest:#70b795; }
+:root[data-theme="night"] .availability { background:var(--snow); color:var(--ink); }
+:root[data-theme="night"] .availability .button { border-color:var(--ink); background:var(--ink); color:var(--paper); }
 :root[data-theme="night"] .scene-night-only,:root[data-theme="night"] .hike-aurora,:root[data-theme="night"] .hike-moon,:root[data-theme="night"] .moon-crater,:root[data-theme="night"] .hike-stars,:root[data-theme="night"] .camp-moon,:root[data-theme="night"] .camp-sky-stars,:root[data-theme="night"] .camp-star { visibility:visible; }
 :root[data-theme="night"] .scene-day-only { visibility:hidden; }
 @media (prefers-contrast: more) { :root { --muted: #2e4442; --line: #718784; } }
@@ -395,7 +399,7 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .tent-dog { animation: dog-look 6s -1s ease-in-out infinite; transform-box: view-box; transform-origin: 949px 620px; }
 .camera-glint { animation:camera-snapshot 8s steps(1) infinite; }
 .camper { filter: drop-shadow(0 6px 8px rgba(0,0,0,.22)); }
-.bigfoot { transform-box:view-box; transform-origin:350px 643px; scale:1.1; }
+.bigfoot { transform-box:view-box; transform-origin:350px 643px; scale:1.1; filter:none; }
 .moth-wing { transform-box: view-box; }.wing-left { transform-origin: 752px 512px; animation: wing-left 6s ease-in-out infinite; }.wing-right { transform-origin: 758px 512px; animation: wing-right 6s ease-in-out infinite; }
 .roasting-arm { transform-box: view-box; animation: roast-turn 5s ease-in-out infinite; }
 .arm-bigfoot { transform-origin: 381px 523px; }.arm-alien { transform-origin: 469px 526px; animation-delay: -1.2s; }.arm-moth { transform-origin: 728px 526px; animation-delay: -2.4s; }.arm-dogman { transform-origin: 846px 527px; animation-delay: -3.6s; }
