@@ -142,26 +142,29 @@
       renderCommands();
     });
 
-    document.addEventListener('keydown', (event) => {
+    window.addEventListener('keydown', (event) => {
       const target = event.target;
       const isEditing = target instanceof HTMLElement && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
+      const keyCode = event.code || `Key${event.key.toUpperCase()}`;
+      const altShortcut = event.altKey && !event.metaKey && !event.ctrlKey && !event.shiftKey;
+      const fallbackShortcut = event.ctrlKey && event.shiftKey && !event.altKey && !event.metaKey;
       if (event.key === 'Escape' && !picker.hidden) {
         picker.open = false;
         picker.hidden = true;
         return;
       }
-      if (event.key.toLowerCase() === 'k' && event.altKey && !event.metaKey && !event.ctrlKey && !event.shiftKey) {
+      if (keyCode === 'KeyK' && (altShortcut || fallbackShortcut)) {
         event.preventDefault();
         if (dialog.open) dialog.close();
         else openCommands();
         return;
       }
-      if (isEditing || event.key.toLowerCase() !== 'p' || !event.altKey || event.shiftKey || event.ctrlKey || event.metaKey) return;
+      if (isEditing || keyCode !== 'KeyP' || (!altShortcut && !fallbackShortcut)) return;
       event.preventDefault();
       picker.hidden = !picker.hidden;
       picker.open = !picker.hidden;
       if (!picker.hidden) picker.querySelector('summary')?.focus();
-    });
+    }, { capture: true });
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mountPicker, { once: true });
