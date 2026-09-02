@@ -7,7 +7,7 @@
   };
   const storageKey = 'portfolio-palette';
   const themeStorageKey = 'portfolio-theme';
-  let selected = 'alpine';
+  let selected = 'glacier';
   let selectedTheme = 'auto';
   const requested = new URLSearchParams(location.search).get('palette');
 
@@ -22,11 +22,12 @@
   } catch {}
 
   const applyPalette = (name) => {
-    selected = name in palettes ? name : 'alpine';
+    selected = name in palettes ? name : 'glacier';
     document.documentElement.dataset.palette = selected;
     const palette = palettes[selected];
     document.querySelector('meta[name="theme-color"][media*="light"]')?.setAttribute('content', palette.light);
     document.querySelector('meta[name="theme-color"][media*="dark"]')?.setAttribute('content', palette.dark);
+    document.querySelector('meta[name="theme-color"]:not([media])')?.setAttribute('content', palette.dark);
     try { localStorage.setItem(storageKey, selected); } catch {}
   };
 

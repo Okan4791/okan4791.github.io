@@ -1,12 +1,13 @@
 :root {
-  --paper: #edf4f3; --snow: #fbfdfb; --ink: #142c2b; --muted: #536765;
-  --copper: #b64c32; --lichen: #8aa37b; --line: #b9c9c6;
+  --paper: #eaf1f4; --snow: #f9fcfd; --ink: #152e3d; --muted: #526c79;
+  --copper: #28769c; --lichen: #5f887d; --line: #b6cbd3;
   --serif: Charter, 'Bitstream Charter', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
   --sans: 'Avenir Next', Avenir, 'Segoe UI Variable', 'Segoe UI', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', ui-monospace, monospace;
   --wrap: min(1180px, calc(100vw - 40px));
   --scene-sky:#d9eef4;--scene-sky-edge:#77a8b8;--scene-celestial:#e4b95f;
 }
+:root[data-palette="alpine"] { --paper:#edf4f3;--snow:#fbfdfb;--ink:#142c2b;--muted:#536765;--copper:#b64c32;--lichen:#8aa37b;--line:#b9c9c6; }
 :root[data-palette="desert"] { --paper:#f3ead8;--snow:#fffaf0;--ink:#302820;--muted:#6d5e4e;--copper:#b4492f;--lichen:#708154;--line:#cdbda5; }
 :root[data-palette="glacier"] { --paper:#eaf1f4;--snow:#f9fcfd;--ink:#152e3d;--muted:#526c79;--copper:#28769c;--lichen:#5f887d;--line:#b6cbd3; }
 :root[data-palette="signal"] { --paper:#f0edf5;--snow:#fcfaff;--ink:#2b233b;--muted:#685e78;--copper:#7550a4;--lichen:#3f8172;--line:#c9bfd6; }
@@ -86,7 +87,7 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .project-featured { grid-column: 1 / -1; }
 .project-link { height: 100%; display: grid; grid-template-rows: auto 1fr; overflow: clip; border: 1px solid var(--line); border-radius: 3px; background: var(--snow); text-decoration: none; transition: transform .28s ease, box-shadow .28s ease; }
 .project-link:hover { transform: translateY(-5px); box-shadow: 0 20px 45px rgba(20,44,43,.11); }
-.project-visual { background: #dbe8e5; overflow: hidden; }
+.project-visual { background: color-mix(in srgb,var(--paper) 78%,var(--lichen)); overflow: hidden; }
 .project-featured .project-visual { aspect-ratio: 2.45 / 1; }
 .project:not(.project-featured) .project-visual { aspect-ratio: 1.55 / 1; }
 .project-visual svg { width: 100%; height: 100%; }
@@ -300,11 +301,12 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
   html { scroll-behavior: auto; }.hobby-traveler,.route-bigfoot,.route-bike,.ddns-packets { display: none; }.visual-shield .check { stroke-dashoffset: 0; }.hobby-landed-disc { display: block; }.hobby-route li,.hobby-route li > svg,.hobby-thrower,.throwing-arm { animation: none; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*) { animation-duration: .01ms !important; animation-delay: 0s !important; }
 }
 @media (prefers-color-scheme: dark) {
-  :root { color-scheme: dark; --paper: #102322; --snow: #152b29; --ink: #eaf3ef; --muted: #b8c9c5; --copper: #ef795c; --lichen: #a8c49a; --line: #3b5652;--scene-sky:#101936;--scene-sky-edge:#496a82;--scene-celestial:#f4e7b2; }
+  :root { color-scheme: dark; --paper:#10232f;--snow:#152c39;--ink:#eaf6fa;--muted:#b5cbd4;--copper:#70bce2;--lichen:#83b7aa;--line:#385767;--scene-sky:#101936;--scene-sky-edge:#496a82;--scene-celestial:#f4e7b2; }
+  :root[data-palette="alpine"] { --paper:#102322;--snow:#152b29;--ink:#eaf3ef;--muted:#b8c9c5;--copper:#ef795c;--lichen:#a8c49a;--line:#3b5652; }
   :root[data-palette="desert"] { --paper:#211914;--snow:#2c211a;--ink:#f7ead2;--muted:#cdbb9f;--copper:#ff7952;--lichen:#b3c578;--line:#5b4637; }
   :root[data-palette="glacier"] { --paper:#10232f;--snow:#152c39;--ink:#eaf6fa;--muted:#b5cbd4;--copper:#70bce2;--lichen:#83b7aa;--line:#385767; }
   :root[data-palette="signal"] { --paper:#1d1729;--snow:#271f36;--ink:#f3edfa;--muted:#c9bdd8;--copper:#c09aef;--lichen:#78c7ae;--line:#514165; }
-  .project-visual { background: #1d3734; }
+  .project-visual { background: color-mix(in srgb,var(--paper) 78%,var(--lichen)); }
   .visual-ddns .ddns-routes path { stroke: #68807c; }
   .ddns-server rect, .visual-shield .shield, .visual-devices .device-panel { fill: #091817; }
   .map-node circle:first-child { filter: none; }
@@ -331,18 +333,21 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 }
 
 /* 404 · cryptid night watch */
-.lost-page { --smoke-font:var(--serif); --smoke-weight:700; --smoke-size:148px; --smoke-tracking:-3px; min-height: 100svh; color: #edf5ef; background: #071522; }
-.lost-main { position: relative; min-height: 100svh; overflow: hidden; background: #071522; isolation: isolate; }
-.lost-copy { position: absolute; z-index: 3; top: clamp(1.5rem,5vw,4.5rem); left: max(1.25rem,calc((100vw - 1180px)/2)); width: min(35rem,calc(100vw - 2.5rem)); padding: clamp(1rem,2.2vw,1.7rem); border: 1px solid rgba(216,238,229,.22); border-radius: 3px; background: rgba(7,21,34,.76); box-shadow: 0 24px 70px rgba(0,0,0,.24); backdrop-filter: blur(8px); }
-.lost-copy .eyebrow { margin-bottom: .8rem; color: #a8c9bc; letter-spacing: .15em; }
+.lost-page { --lost-sky:#081923;--lost-panel:rgba(8,25,35,.78);--lost-copy:#eaf6fa;--lost-muted:#b5cbd4;--lost-accent:#70bce2;--lost-line:rgba(181,203,212,.25);--smoke-font:var(--serif); --smoke-weight:700; --smoke-size:148px; --smoke-tracking:-3px; min-height: 100svh; color: var(--lost-copy); background: var(--lost-sky); }
+:root[data-palette="alpine"] .lost-page { --lost-sky:#071522;--lost-panel:rgba(7,21,34,.78);--lost-copy:#edf5ef;--lost-muted:#c5d6d2;--lost-accent:#ef795c;--lost-line:rgba(216,238,229,.22); }
+:root[data-palette="desert"] .lost-page { --lost-sky:#1d1511;--lost-panel:rgba(33,25,20,.8);--lost-copy:#f7ead2;--lost-muted:#cdbb9f;--lost-accent:#ff7952;--lost-line:rgba(205,187,159,.25); }
+:root[data-palette="signal"] .lost-page { --lost-sky:#171121;--lost-panel:rgba(29,23,41,.8);--lost-copy:#f3edfa;--lost-muted:#c9bdd8;--lost-accent:#c09aef;--lost-line:rgba(201,189,216,.25); }
+.lost-main { position: relative; min-height: 100svh; overflow: hidden; background: var(--lost-sky); isolation: isolate; }
+.lost-copy { position: absolute; z-index: 3; top: clamp(1.5rem,5vw,4.5rem); left: max(1.25rem,calc((100vw - 1180px)/2)); width: min(35rem,calc(100vw - 2.5rem)); padding: clamp(1rem,2.2vw,1.7rem); border: 1px solid var(--lost-line); border-radius: 3px; background: var(--lost-panel); box-shadow: 0 24px 70px rgba(0,0,0,.24); backdrop-filter: blur(8px); }
+.lost-copy .eyebrow { margin-bottom: .8rem; color: var(--lost-muted); letter-spacing: .15em; }
 .lost-copy h1 { max-width: 11ch; font-size: clamp(3rem,6.2vw,6.5rem); line-height: .94; letter-spacing: -.045em; text-shadow: 0 3px 18px rgba(0,0,0,.25); }
-.lost-copy h1 em { color: #ef795c; }
-.lost-lede { max-width: 29rem; margin: 1.1rem 0 1.4rem; color: #c5d6d2; font-size: clamp(1rem,1vw + .72rem,1.14rem); line-height: 1.62; letter-spacing: .004em; }
-.lost-button { border-color: #edf5ef; background: #edf5ef; color: #102322; }
-.lost-button:hover { border-color: #ef795c; color: #fff; }
+.lost-copy h1 em { color: var(--lost-accent); }
+.lost-lede { max-width: 29rem; margin: 1.1rem 0 1.4rem; color: var(--lost-muted); font-size: clamp(1rem,1vw + .72rem,1.14rem); line-height: 1.62; letter-spacing: .004em; }
+.lost-button { border-color: var(--lost-copy); background: var(--lost-copy); color: var(--lost-sky); }
+.lost-button:hover { border-color: var(--lost-accent); background: var(--lost-accent); color: var(--lost-sky); }
 .cryptid-camp { position: absolute; inset: 0; margin: 0; display: grid; align-items: end; }
 .cryptid-camp svg { width: 100%; height: 100%; min-height: 620px; object-fit: cover; object-position: center bottom; }
-.cryptid-camp figcaption { position: absolute; right: clamp(1rem,3vw,2.5rem); bottom: 1rem; color: rgba(237,245,239,.7); font: 700 .67rem/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.cryptid-camp figcaption { position: absolute; right: clamp(1rem,3vw,2.5rem); bottom: 1rem; color: color-mix(in srgb,var(--lost-copy) 70%,transparent); font: 700 .67rem/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .aurora-ribbon { stroke-width: 34; opacity: .3; }
 .aurora-ribbon-one { stroke: url(#aurora-green); animation: camp-aurora 10s ease-in-out infinite alternate; }
 .aurora-ribbon-two { stroke: url(#aurora-blue); stroke-width: 25; animation: camp-aurora 12s -4s ease-in-out infinite alternate-reverse; }
