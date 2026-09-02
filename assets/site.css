@@ -67,9 +67,10 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .project:not(.project-featured) .project-visual { aspect-ratio: 1.55 / 1; }
 .project-visual svg { width: 100%; height: 100%; }
 .project-visual text { fill: var(--muted); font: 700 11px var(--mono); letter-spacing: 1.4px; }
-.visual-ddns .orbit ellipse { fill: none; stroke: #94aaa6; stroke-width: 1.5; stroke-dasharray: 5 8; transform-box: fill-box; transform-origin: center; animation: spin 18s linear infinite; }
-.visual-ddns .packet { fill: var(--copper); }.visual-ddns rect { fill: var(--ink); }.visual-ddns path { stroke: var(--paper); stroke-width: 8; stroke-linecap: round; }
-@keyframes spin { to { rotate: 360deg; }}
+.visual-ddns .ddns-routes path { fill: none; stroke: #94aaa6; stroke-width: 2; stroke-dasharray: 6 9; }
+.visual-ddns .ddns-endpoints circle { fill: var(--paper); stroke: var(--ink); stroke-width: 4; }
+.visual-ddns .ddns-packets circle { fill: var(--copper); stroke: var(--paper); stroke-width: 3; }
+.visual-ddns rect { fill: var(--ink); }.visual-ddns > svg > path { stroke: var(--paper); stroke-width: 8; stroke-linecap: round; }
 .visual-shield .shield { fill: var(--ink); }.visual-shield .scan { stroke: var(--copper); stroke-width: 4; animation: scan 2.8s ease-in-out infinite; }.visual-shield .check { fill: none; stroke: var(--paper); stroke-width: 12; stroke-linecap: round; stroke-linejoin: round; }
 @keyframes scan { 0%,100% { transform: translateY(-35px); opacity: .45; } 50% { transform: translateY(45px); opacity: 1; }}
 .visual-devices rect { fill: var(--ink); }.device-lines path { stroke: #76908b; stroke-width: 4; stroke-linecap: round; }.toggles circle { fill: var(--copper); animation: toggle 3.6s steps(1) infinite; }.toggles circle:nth-child(2){animation-delay: .8s}.toggles circle:nth-child(3){animation-delay:1.6s}
@@ -93,7 +94,7 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .hobby-route li svg { width: clamp(3.3rem,5.5vw,4.25rem); padding: .65rem; overflow: visible; border: 1px solid var(--line); border-radius: 50%; background: var(--paper); fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .camp-star { transform-box: fill-box; transform-origin: center; animation: hobby-twinkle 3.6s ease-in-out infinite; }
 .hike-sun { transform-box: fill-box; transform-origin: center; animation: hobby-rise 4s ease-in-out infinite; }
-.bike-crank { transform-box: fill-box; transform-origin: 21px 34px; animation: hobby-pedal 5s linear infinite; }
+.bike-wheel, .bike-crank { transform-box: view-box; animation: hobby-pedal 5s linear infinite; }.bike-wheel-rear { transform-origin: 12px 34px; }.bike-wheel-front { transform-origin: 37px 34px; }.bike-crank { transform-origin: 21px 34px; animation-duration: 2.5s; }
 .flying-disc { transform-box: fill-box; transform-origin: center; animation: hobby-disc 3.8s ease-in-out infinite; }
 .beer-bubble { transform-box: fill-box; transform-origin: center; animation: hobby-bubble 3.2s ease-in infinite; }.bubble-two { animation-delay: 1.4s; }
 @keyframes hobby-twinkle { 0%,100% { opacity: .45; scale: .78; } 50% { opacity: 1; scale: 1.12; } }
@@ -144,12 +145,12 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 }
 @media (max-width: 430px) { .site-header nav a:first-child { display: none; } h1 { font-size: clamp(3.1rem, 16vw, 4.6rem); }.hero-actions { align-items: flex-start; flex-direction: column; }.signal-map { margin-inline: -8px; } }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }.hobby-runner { display: none; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }.hobby-runner,.ddns-packets { display: none; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 @media (prefers-color-scheme: dark) {
   :root { color-scheme: dark; --paper: #102322; --snow: #152b29; --ink: #eaf3ef; --muted: #b8c9c5; --copper: #ef795c; --lichen: #a8c49a; --line: #3b5652; }
   .project-visual { background: #1d3734; }
-  .visual-ddns .orbit ellipse { stroke: #68807c; }
+  .visual-ddns .ddns-routes path { stroke: #68807c; }
   .visual-ddns rect, .visual-shield .shield, .visual-devices rect { fill: #091817; }
   .map-node circle:first-child { filter: none; }
 }

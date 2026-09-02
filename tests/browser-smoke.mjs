@@ -58,6 +58,21 @@ try {
     const requestId = ++id; pending.set(requestId, { resolve, reject });
     socket.send(JSON.stringify({ id: requestId, method, params }));
   });
+  const capturePhase = async (width, name, selector, time) => {
+    await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
+    await new Promise((done) => setTimeout(done, 200));
+    await send('Runtime.evaluate', { expression: `
+      document.documentElement.style.scrollBehavior='auto';
+      const target=document.querySelector(${JSON.stringify(selector)});
+      const box=target.getBoundingClientRect();
+      window.scrollTo(0,box.top+scrollY-(innerHeight-box.height)/2);
+      target.querySelectorAll('svg').forEach((svg)=>svg.setCurrentTime?.(${time / 1000}));
+      document.getAnimations().filter((animation)=>target.contains(animation.effect?.target)).forEach((animation)=>{animation.pause();animation.currentTime=${time}});
+    ` });
+    await new Promise((done) => setTimeout(done, 100));
+    const capture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true });
+    writeFileSync(`/tmp/bolens-${name}-${width}-${time}.png`, Buffer.from(capture.data, 'base64'));
+  };
   await Promise.all(['Page.enable', 'Runtime.enable', 'Network.enable', 'Log.enable'].map((method) => send(method)));
 
   const missing = await fetch('http://127.0.0.1:4173/missing-route');
@@ -77,20 +92,35 @@ try {
       if (value.h1 !== 1 || !value.main || value.overflow || !value.title) throw new Error(`${width}px ${route}: ${JSON.stringify(value)}`);
     }
     if (captureEvidence) {
-      await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
-      await new Promise((done) => setTimeout(done, 200));
-      await send('Runtime.evaluate', { expression: `document.documentElement.style.scrollBehavior='auto';document.querySelector('#off-the-clock').scrollIntoView({block:'end'})` });
-      await new Promise((done) => setTimeout(done, 200));
-      const capture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true });
-      writeFileSync(`/tmp/bolens-hobbies-${width}.png`, Buffer.from(capture.data, 'base64'));
+      await capturePhase(width, 'hobbies', '#off-the-clock', 0);
+      await capturePhase(width, 'hobbies', '#off-the-clock', 1600);
+      await capturePhase(width, 'uddns', '.visual-ddns', 0);
+      await capturePhase(width, 'uddns', '.visual-ddns', 1800);
     }
   }
+
+  await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
+  await new Promise((done) => setTimeout(done, 200));
+  const motion = await send('Runtime.evaluate', { expression: `(()=>{
+    const ddns=document.querySelector('.visual-ddns svg');
+    const packet=document.querySelector('.ddns-packets circle');
+    ddns.setCurrentTime(0);const packetStart=packet.getBoundingClientRect();
+    ddns.setCurrentTime(1.8);const packetEnd=packet.getBoundingClientRect();
+    const wheel=document.querySelector('.bike-wheel-rear');
+    const frame=wheel.previousElementSibling;
+    const animation=wheel.getAnimations()[0];animation.pause();animation.currentTime=0;
+    const wheelStart=getComputedStyle(wheel).rotate;
+    animation.currentTime=1600;const wheelEnd=getComputedStyle(wheel).rotate;
+    return {packetTravel:Math.hypot(packetEnd.x-packetStart.x,packetEnd.y-packetStart.y),wheelStart,wheelEnd,frame:getComputedStyle(frame).transform};
+  })()`, returnByValue: true });
+  const motionValue = motion.result.value;
+  if (motionValue.packetTravel < 10 || motionValue.wheelStart === motionValue.wheelEnd || motionValue.frame !== 'none') throw new Error(`SVG motion regression: ${JSON.stringify(motionValue)}`);
 
   await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }, { name: 'prefers-reduced-motion', value: 'reduce' }] });
   await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
   await new Promise((done) => setTimeout(done, 150));
-  const preferences = await send('Runtime.evaluate', { expression: `({dark:matchMedia('(prefers-color-scheme: dark)').matches,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches})`, returnByValue: true });
-  if (!preferences.result.value.dark || !preferences.result.value.reduced) throw new Error('preference emulation failed');
+  const preferences = await send('Runtime.evaluate', { expression: `({dark:matchMedia('(prefers-color-scheme: dark)').matches,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,ddns:getComputedStyle(document.querySelector('.ddns-packets')).display})`, returnByValue: true });
+  if (!preferences.result.value.dark || !preferences.result.value.reduced || preferences.result.value.ddns !== 'none') throw new Error(`preference emulation failed: ${JSON.stringify(preferences.result.value)}`);
 
   await send('Emulation.setEmulatedMedia', { media: 'print', features: [] });
   const print = await send('Runtime.evaluate', { expression: `({print:matchMedia('print').matches,visibility:getComputedStyle(document.querySelector('.work-section')).contentVisibility,animations:document.getAnimations().length})`, returnByValue: true });
