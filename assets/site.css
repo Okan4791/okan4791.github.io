@@ -228,16 +228,27 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
   @keyframes reveal { from { opacity: .01; translate: 0 20px; } to { opacity: 1; translate: 0; } }
 }
 @view-transition { navigation: auto; }
-::view-transition-old(root) { animation: .2s ease both page-out; }
-::view-transition-new(root) { animation: .42s .06s cubic-bezier(.2,.75,.2,1) both page-in; }
-::view-transition-group(site-mark),::view-transition-group(site-nav),::view-transition-group(site-footer),::view-transition-group(case-breadcrumb),::view-transition-group(case-meta),::view-transition-group(case-title),::view-transition-group(case-lede),::view-transition-group(case-facts),::view-transition-group(case-route),::view-transition-group(case-next) { animation-duration: .46s; animation-timing-function: cubic-bezier(.2,.75,.2,1); }
-::view-transition-old(case-breadcrumb),::view-transition-old(case-meta),::view-transition-old(case-title),::view-transition-old(case-lede),::view-transition-old(case-facts),::view-transition-old(case-route),::view-transition-old(case-next) { animation: .18s ease both case-out; }
-::view-transition-new(case-breadcrumb),::view-transition-new(case-meta),::view-transition-new(case-title),::view-transition-new(case-lede),::view-transition-new(case-facts),::view-transition-new(case-route),::view-transition-new(case-next) { animation: .48s .08s cubic-bezier(.2,.75,.2,1) both case-in; }
+::view-transition-image-pair(root) { isolation: auto; }
+::view-transition-old(root),::view-transition-new(root) { mix-blend-mode: normal; }
+::view-transition-old(root) { animation: .24s cubic-bezier(.4,0,1,1) both page-out; }
+::view-transition-new(root) { animation: .52s .04s cubic-bezier(.16,1,.3,1) both page-in; }
+::view-transition-group(site-mark),::view-transition-group(site-nav),::view-transition-group(site-footer),::view-transition-group(case-breadcrumb),::view-transition-group(case-meta),::view-transition-group(case-title),::view-transition-group(case-lede),::view-transition-group(case-facts),::view-transition-group(case-route),::view-transition-group(case-next) { animation-duration: .58s; animation-timing-function: cubic-bezier(.16,1,.3,1); }
+::view-transition-new(site-mark) { animation: .56s .03s cubic-bezier(.2,1.35,.35,1) both mark-in; }
+::view-transition-old(case-breadcrumb),::view-transition-old(case-meta),::view-transition-old(case-title),::view-transition-old(case-lede),::view-transition-old(case-facts),::view-transition-old(case-route),::view-transition-old(case-next) { animation: .2s cubic-bezier(.4,0,1,1) both case-out; }
+::view-transition-new(case-breadcrumb) { animation: .4s .03s cubic-bezier(.16,1,.3,1) both case-in; }
+::view-transition-new(case-meta) { animation: .42s .06s cubic-bezier(.16,1,.3,1) both case-in; }
+::view-transition-new(case-title) { animation: .5s .09s cubic-bezier(.16,1,.3,1) both case-in; }
+::view-transition-new(case-lede) { animation: .46s .13s cubic-bezier(.16,1,.3,1) both case-in; }
+::view-transition-new(case-facts) { animation: .48s .16s cubic-bezier(.16,1,.3,1) both case-in; }
+::view-transition-new(case-route) { animation: .58s .19s cubic-bezier(.2,1.25,.35,1) both route-in; }
+::view-transition-new(case-next) { animation: .46s .16s cubic-bezier(.16,1,.3,1) both case-in; }
 ::view-transition-group(case-route) { overflow: clip; }
-@keyframes page-out { to { opacity: 0; translate: 0 -6px; } }
-@keyframes page-in { from { opacity: 0; translate: 0 12px; } }
-@keyframes case-out { to { opacity: 0; translate: -12px 0; } }
-@keyframes case-in { from { opacity: 0; translate: 18px 0; } }
+@keyframes page-out { to { opacity: 0; translate: 0 -8px; scale: .992; } }
+@keyframes page-in { from { opacity: 0; translate: 0 16px; scale: .988; } }
+@keyframes case-out { to { opacity: 0; translate: -10px 0; scale: .99; } }
+@keyframes case-in { from { opacity: 0; translate: 22px 0; } }
+@keyframes mark-in { from { opacity: 0; scale: .82; rotate: -7deg; } 72% { scale: 1.04; rotate: 1deg; } }
+@keyframes route-in { from { opacity: 0; translate: 26px 4px; scale: .975; rotate: -.35deg; } 72% { scale: 1.008; rotate: .1deg; } }
 @media (max-width: 780px) {
   :root { --wrap: min(100% - 28px, 680px); }
   .site-header { min-height: 76px; }.wordmark { width: 42px; } nav { gap: 1rem; } nav a { font-size: .78rem; }.nav-cta { padding: .48rem .68rem; }
