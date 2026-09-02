@@ -249,16 +249,20 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .aurora-edge-one { stroke:#b0ffe1; }.aurora-edge-two { stroke:#9ce9e1; animation-delay:-3s; }
 .aurora-curtains { transform-box:view-box; transform-origin:center top; animation:aurora-curtain-breathe 11s ease-in-out infinite alternate; }
 .milky-way { animation:milky-way-breathe 12s ease-in-out infinite alternate; }
-.camp-stars circle { transform-box: fill-box; transform-origin: center; animation: camp-twinkle 4s ease-in-out infinite; }
-.camp-stars circle:nth-child(3n+1) { animation-delay: -1.3s; }.camp-stars circle:nth-child(3n+2) { animation-delay: -2.6s; }
+.camp-stars circle { transform-box: fill-box; transform-origin: center; animation: camp-twinkle 5.8s ease-in-out infinite; }
+.camp-stars circle:nth-child(3n+1) { animation-duration:7.1s;animation-delay:-2.1s; }.camp-stars circle:nth-child(3n+2) { animation-duration:4.9s;animation-delay:-3.4s; }.camp-stars circle:nth-child(5n) { animation-duration:8.3s;animation-delay:-5.2s; }
 .camp-moon { transform-box: fill-box; transform-origin: center; animation: moon-breathe 8s ease-in-out infinite; }
 .deep-forest { fill:#0b2828; stroke:#31554c; stroke-width:2.5; opacity:.88; }
+.forest-fireflies > g { transform-box:fill-box;transform-origin:center;opacity:.12;animation:firefly-glow 5.4s ease-in-out infinite; }
+.forest-fireflies .firefly-phase-one { animation-duration:6.8s;animation-delay:-2.4s; }.forest-fireflies .firefly-phase-two { animation-duration:4.7s;animation-delay:-3.6s; }.forest-fireflies .firefly-phase-three { animation-duration:7.6s;animation-delay:-5.1s; }
 .river { filter:drop-shadow(0 0 12px rgba(77,143,145,.16)); }
 .river-ripples { animation:river-glint 5s ease-in-out infinite alternate; }
 .river-reflections { animation:river-reflection 6.5s ease-in-out infinite alternate; }
 .water-foam { animation:water-foam 4s ease-in-out infinite alternate; }
+.river-ferns { transform-box:fill-box;transform-origin:center bottom;animation:fern-sway 6.8s ease-in-out infinite alternate; }.dry-ferns { transform-box:fill-box;transform-origin:center bottom;animation:fern-sway 8.2s -3s ease-in-out infinite alternate-reverse; }
 .background-ufo { filter: drop-shadow(0 4px 8px rgba(0,0,0,.32)) drop-shadow(0 0 8px rgba(116,184,189,.14)); }
-.ufo-lights { fill:#eab94e; animation:ufo-lights 4.8s steps(1) infinite; }
+.ufo-lights { fill:#eab94e; animation:ufo-lights 5.6s ease-in-out infinite alternate; }
+.ufo-lights circle:nth-child(2) { opacity:.7; }.ufo-lights circle:nth-child(3) { opacity:.48; }.ufo-lights circle:nth-child(4) { opacity:.28; }
 .tent-peekers { transform:none; }
 .tent-dog { animation: dog-look 6s -1s ease-in-out infinite; transform-box: view-box; transform-origin: 949px 620px; }
 .camera-glint { animation:camera-snapshot 8s steps(1) infinite; }
@@ -268,7 +272,12 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .roasting-arm { transform-box: view-box; animation: roast-turn 5s ease-in-out infinite; }
 .arm-bigfoot { transform-origin: 381px 523px; }.arm-alien { transform-origin: 469px 526px; animation-delay: -1.2s; }.arm-moth { transform-origin: 728px 526px; animation-delay: -2.4s; }.arm-dogman { transform-origin: 846px 527px; animation-delay: -3.6s; }
 .flame { transform-box: view-box; transform-origin: 608px 648px; }.flame-outer { animation: fire-dance .92s ease-in-out infinite alternate; }.flame-inner { animation: fire-dance .64s -.3s ease-in-out infinite alternate-reverse; }.flame-core { animation: fire-dance .48s -.16s ease-in-out infinite alternate; }
-.embers circle { animation: ember-rise 2.2s ease-out infinite; }.embers circle:nth-child(2) { animation-delay: -.8s; }.embers circle:nth-child(3) { animation-delay: -1.5s; }
+.flame-side-left { transform-origin:588px 647px;animation:fire-side-left .73s -.2s ease-in-out infinite alternate; }.flame-side-right { transform-origin:626px 649px;animation:fire-side-right .81s -.55s ease-in-out infinite alternate; }
+.campfire-glow { transform-box:fill-box;transform-origin:center;animation:campfire-glow 2.3s ease-in-out infinite alternate; }
+.firelight-rings { transform-box:fill-box;transform-origin:center;animation:firelight-breathe 3.1s -.8s ease-in-out infinite alternate; }
+.coal-bed circle { transform-box:fill-box;transform-origin:center;animation:coal-pulse 1.7s ease-in-out infinite alternate; }.coal-bed circle:nth-of-type(2) { animation-delay:-.8s; }
+.embers > * { transform-box:fill-box;transform-origin:center;animation: ember-rise 2.2s ease-out infinite; }.embers > :nth-child(2) { animation-delay: -.8s; }.embers > :nth-child(3) { animation-delay: -1.5s; }.embers > :nth-child(4) { animation-delay: -.35s; }.embers > :nth-child(5) { animation-delay:-1.1s; }.embers > :nth-child(6) { animation-delay:-1.8s; }
+.heat-shimmer { animation:heat-shimmer 2.8s ease-in-out infinite alternate; }
 .smoke-number { font-family:var(--smoke-font); font-size:var(--smoke-size); font-weight:var(--smoke-weight); letter-spacing:0; transform-box:fill-box; transform-origin:center bottom; }
 .smoke-character { --smoke-delay:0s; }
 .smoke-character-zero { --smoke-delay:.32s; }.smoke-character-right { --smoke-delay:.64s; }
@@ -276,28 +285,42 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .smoke-character-entry { transform-box:fill-box; transform-origin:center bottom; animation:smoke-glyph-form 1.9s var(--smoke-delay) cubic-bezier(.5,0,.25,1) both; }
 .smoke-number-main { fill:#d4dedb; opacity:.76; animation:smoke-drift 7s calc(1.9s + var(--smoke-delay)) ease-in-out infinite alternate; }
 .forming-tendril { fill:none; stroke:#d4dedb; stroke-width:9; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; opacity:0; animation:smoke-tendril-form 1.9s var(--smoke-delay) cubic-bezier(.45,0,.3,1) both; }
+.smoke-wisps { stroke-width:5;opacity:.2;animation:smoke-wisp-drift 7.5s ease-in-out infinite alternate; }
+.smoke-puffs { opacity:.16;animation:smoke-puff-drift 9s -2s ease-in-out infinite alternate; }
 .smoke-thread { animation: smoke-thread 4s ease-in-out infinite; }
-@keyframes camp-aurora { 0% { opacity:.18; translate:-2% 3px; } 50% { opacity:.42; } 100% { opacity:.25; translate:2% -6px; } }
-@keyframes aurora-shimmer { from { opacity:.18;translate:-5px 2px; } to { opacity:.52;translate:7px -4px; } }
-@keyframes aurora-curtain-breathe { from { opacity:.58;scale:1 .92; } to { opacity:1;scale:1 1.05; } }
+.tent-lantern circle { transform-box:fill-box;transform-origin:center;animation:lantern-glow 2.8s ease-in-out infinite alternate; }
+@keyframes camp-aurora { 0% { opacity:.22; translate:-.7% 2px; } 50% { opacity:.38; } 100% { opacity:.28; translate:.8% -3px; } }
+@keyframes aurora-shimmer { from { opacity:.22;translate:-3px 1px; } to { opacity:.48;translate:4px -2px; } }
+@keyframes aurora-curtain-breathe { from { opacity:.64;scale:1 .97; } to { opacity:.9;scale:1 1.02; } }
 @keyframes milky-way-breathe { from { opacity:.55; } to { opacity:1; } }
 @keyframes camp-twinkle { 0%,100% { opacity:.3; scale:.7; } 50% { opacity:1; scale:1.3; } }
+@keyframes firefly-glow { 0%,100% { opacity:.06;scale:.55; } 42% { opacity:.72;scale:1.12; } 68% { opacity:.28;scale:.82; } }
 @keyframes moon-breathe { 0%,100% { opacity:.92; } 50% { opacity:1; } }
 @keyframes river-glint { from { opacity:.3;translate:-3px 0; } to { opacity:.68;translate:4px 0; } }
 @keyframes river-reflection { from { opacity:.55;translate:-2px 0; } to { opacity:1;translate:3px 1px; } }
 @keyframes water-foam { from { opacity:.28;translate:-1px 0; } to { opacity:.52;translate:2px 0; } }
-@keyframes ufo-lights { 0%,100% { opacity:.25; } 18%,72% { opacity:.9; } 20%,28% { opacity:.4; } }
+@keyframes fern-sway { from { rotate:-1deg; } to { rotate:1.4deg; } }
+@keyframes ufo-lights { 0% { opacity:.26; } 42% { opacity:.58; } 72% { opacity:.82; } 100% { opacity:.38; } }
 @keyframes dog-look { 0%,35%,100% { rotate:0deg; } 50%,68% { rotate:-5deg; } }
 @keyframes camera-snapshot { 0%,66%,69%,100% { opacity:1; } 67% { opacity:.1; } 68% { opacity:1; } }
 @keyframes wing-left { 0%,100% { rotate:0deg; } 50% { rotate:-4deg; } } @keyframes wing-right { 0%,100% { rotate:0deg; } 50% { rotate:4deg; } }
 @keyframes roast-turn { 0%,100% { rotate:-2deg; } 50% { rotate:3deg; } }
 @keyframes fire-dance { from { scale:.92 1; rotate:-2deg; } to { scale:1.04 .92; rotate:3deg; } }
+@keyframes fire-side-left { from { scale:.88 1;rotate:-4deg; } to { scale:1.05 .9;rotate:3deg; } }
+@keyframes fire-side-right { from { scale:1 .9;rotate:3deg; } to { scale:.9 1.04;rotate:-3deg; } }
+@keyframes campfire-glow { from { opacity:.68;scale:.98 .96; } to { opacity:.92;scale:1.025 1.04; } }
+@keyframes firelight-breathe { from { opacity:.08;scale:.99; } to { opacity:.18;scale:1.015; } }
+@keyframes coal-pulse { from { opacity:.55;scale:.85; } to { opacity:1;scale:1.12; } }
+@keyframes heat-shimmer { from { opacity:.08;translate:-2px 2px; } to { opacity:.22;translate:3px -4px; } }
 @keyframes ember-rise { 0% { opacity:0; translate:0 14px; scale:.5; } 30% { opacity:1; } 100% { opacity:0; translate:8px -40px; scale:.15; } }
 @keyframes smoke-glyph-form { 0%,22% { opacity:0;translate:0 42px;scale:.78 1.18; } 62% { opacity:.48;translate:0 12px;scale:.93 1.05; } 100% { opacity:1;translate:0;scale:1; } }
 @keyframes smoke-tendril-form { 0% { opacity:0;stroke-dashoffset:1; } 18% { opacity:.7; } 72% { opacity:.62;stroke-dashoffset:0; } 100% { opacity:0;stroke-dashoffset:0; } }
 @keyframes smoke-drift { 0% { translate:0; rotate:0deg; } 100% { translate:3px -7px; rotate:.8deg; } }
 @keyframes smoke-haze { from { opacity:.1;translate:-4px 2px; } to { opacity:.22;translate:5px -7px; } }
 @keyframes smoke-thread { 0%,100% { opacity:.3; translate:0 4px; } 50% { opacity:.65; translate:3px -4px; } }
+@keyframes smoke-wisp-drift { from { opacity:.12;translate:-3px 3px; } to { opacity:.28;translate:5px -8px; } }
+@keyframes smoke-puff-drift { from { opacity:.08;translate:-4px 4px; } to { opacity:.2;translate:7px -10px; } }
+@keyframes lantern-glow { from { opacity:.12;scale:.85; } to { opacity:.34;scale:1.2; } }
 @media (max-width: 760px) {
   .lost-copy { top:1rem; left:1rem; width:calc(100vw - 2rem); margin:0; padding:1rem; }
   .lost-copy h1 { font-size: clamp(2.8rem,14vw,4.8rem); }
