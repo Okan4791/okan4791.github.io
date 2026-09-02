@@ -1,9 +1,10 @@
 import { createServer } from 'node:http';
-import { createReadStream, existsSync, mkdtempSync, statSync } from 'node:fs';
+import { createReadStream, existsSync, mkdtempSync, statSync, writeFileSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
 
 const root = resolve(import.meta.dirname, '..');
+const captureEvidence = process.argv.includes('--capture-evidence');
 const mime = { '.css': 'text/css', '.html': 'text/html', '.png': 'image/png', '.svg': 'image/svg+xml', '.xml': 'application/xml', '.txt': 'text/plain' };
 const server = createServer((request, response) => {
   const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -73,6 +74,14 @@ try {
       const check = await send('Runtime.evaluate', { expression: `({h1:document.querySelectorAll('h1').length,main:!!document.querySelector('main'),overflow:document.documentElement.scrollWidth>innerWidth,title:document.title})`, returnByValue: true });
       const value = check.result.value;
       if (value.h1 !== 1 || !value.main || value.overflow || !value.title) throw new Error(`${width}px ${route}: ${JSON.stringify(value)}`);
+    }
+    if (captureEvidence) {
+      await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
+      await new Promise((done) => setTimeout(done, 200));
+      await send('Runtime.evaluate', { expression: `document.documentElement.style.scrollBehavior='auto';document.querySelector('#off-the-clock').scrollIntoView({block:'end'})` });
+      await new Promise((done) => setTimeout(done, 200));
+      const capture = await send('Page.captureScreenshot', { format: 'png', fromSurface: true });
+      writeFileSync(`/tmp/bolens-hobbies-${width}.png`, Buffer.from(capture.data, 'base64'));
     }
   }
 
