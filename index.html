@@ -232,7 +232,7 @@
             <animateTransform attributeName="transform" type="translate" dur="24s" repeatCount="indefinite" calcMode="linear" values="315 54;315 54;315 54;315 12;500 12;500 12;500 21;500 21;675 36;675 36;315 54" keyTimes="0;.12;.20;.24;.30;.32;.35;.38;.50;.54;1" />
           </g>
           <g class="route-bike">
-            <circle cx="-14" cy="42" r="8" /><circle cx="14" cy="42" r="8" /><path d="m-14 42 8-14 8 14h-16 28L2 42l6-14H-6m0 0-4-4m18 4 4-8h5" /><path class="route-bike-saddle" d="M-10 28h8" />
+            <g class="route-bike-tires"><circle cx="-14" cy="42" r="8" /><circle cx="14" cy="42" r="8" /></g><path class="route-bike-frame" d="m-14 42 8-14 8 14h-16 28L2 42l6-14H-6m0 0-4-4m18 4 4-8h5" /><path class="route-bike-saddle" d="M-10 28h8" />
             <g class="route-bike-wheel route-bike-wheel-rear"><path d="M-14 36v12m-6-6h12m-10-4 8 8m0-8-8 8" /></g>
             <g class="route-bike-wheel route-bike-wheel-front"><path d="M14 36v12m-6-6h12m-10-4 8 8m0-8-8 8" /></g>
             <animateTransform attributeName="transform" type="translate" dur="24s" repeatCount="indefinite" calcMode="linear" values="500 0;500 0;675 15;675 15;500 0" keyTimes="0;.38;.50;.54;1" />
@@ -276,8 +276,8 @@
           </li>
           <li class="hobby-cycling">
             <svg viewBox="0 0 48 48" aria-hidden="true">
-              <circle cx="12" cy="34" r="8" /><circle cx="37" cy="34" r="8" />
-              <path d="M12 34 20 21l5 13H12Zm8-13h11l6 13M25 34l6-13M17 18h7M31 21l3-7h5" />
+              <g class="bike-tires"><circle cx="12" cy="34" r="8" /><circle cx="37" cy="34" r="8" /></g>
+              <path class="bike-frame" d="M12 34 20 21l5 13H12Zm8-13h11l6 13M25 34l6-13M17 18h7M31 21l3-7h5" />
               <path class="bike-details" d="M21 25h5l-1 6h-5ZM34 14h5M25 34a4 4 0 1 0 0 .1M3 21h6M1 25h6" />
               <g class="bike-wheel bike-wheel-rear"><path d="M12 28v12M6 34h12M8 30l8 8M16 30l-8 8" /></g>
               <g class="bike-wheel bike-wheel-front"><path d="M37 28v12M31 34h12M33 30l8 8M41 30l-8 8" /></g>
@@ -301,6 +301,7 @@
           <li class="hobby-disc-golf">
             <svg viewBox="0 0 48 48" aria-hidden="true">
               <path class="disc-pin" d="M31 11v32M31 13h10l-3 5h-7M24 43h14" />
+              <ellipse class="basket-caught-disc" cx="31" cy="23" rx="7" ry="2" />
               <ellipse class="disc-basket-rim" cx="31" cy="23" rx="8" ry="2" /><path class="disc-basket" d="m24 23 2 8h10l2-8M26 23v7m3-7v8m4-8v8m3-8v7M27 31h8" />
               <path class="disc-details" d="m34 14 4 2M20 43l-4-3m4 3-5 1m25-1 4-3m-4 3 5 1" />
             </svg>
