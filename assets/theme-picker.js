@@ -6,13 +6,19 @@
     signal: { label: 'Night Signal', light: '#f0edf5', dark: '#1d1729' },
   };
   const storageKey = 'portfolio-palette';
+  const themeStorageKey = 'portfolio-theme';
   let selected = 'alpine';
+  let selectedTheme = 'auto';
   const requested = new URLSearchParams(location.search).get('palette');
 
   if (requested in palettes) selected = requested;
   else try {
     const saved = localStorage.getItem(storageKey);
     if (saved in palettes) selected = saved;
+  } catch {}
+  try {
+    const savedTheme = localStorage.getItem(themeStorageKey);
+    if (['auto', 'day', 'night'].includes(savedTheme)) selectedTheme = savedTheme;
   } catch {}
 
   const applyPalette = (name) => {
@@ -25,6 +31,13 @@
   };
 
   applyPalette(selected);
+  const applyTheme = (theme) => {
+    selectedTheme = ['auto', 'day', 'night'].includes(theme) ? theme : 'auto';
+    if (selectedTheme === 'auto') delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = selectedTheme;
+    try { localStorage.setItem(themeStorageKey, selectedTheme); } catch {}
+  };
+  applyTheme(selectedTheme);
 
   const mountPicker = () => {
     const picker = document.createElement('details');
@@ -41,8 +54,15 @@
           </label>`).join('')}
       </fieldset>`;
 
+    const themeFieldset = document.createElement('fieldset');
+    themeFieldset.className = 'theme-options';
+    themeFieldset.innerHTML = `<legend>Choose an appearance</legend>${['auto', 'day', 'night'].map((theme) => `<label><input type="radio" name="portfolio-theme" value="${theme}"${theme === selectedTheme ? ' checked' : ''}><span>${theme === 'auto' ? 'System' : theme[0].toUpperCase() + theme.slice(1)}</span></label>`).join('')}`;
+    picker.append(themeFieldset);
+
     picker.addEventListener('change', (event) => {
-      if (event.target instanceof HTMLInputElement) applyPalette(event.target.value);
+      if (!(event.target instanceof HTMLInputElement)) return;
+      if (event.target.name === 'portfolio-theme') applyTheme(event.target.value);
+      else applyPalette(event.target.value);
     });
     document.addEventListener('pointerdown', (event) => {
       if (picker.open && !picker.contains(event.target)) picker.removeAttribute('open');
