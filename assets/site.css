@@ -238,15 +238,21 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .cryptid-camp svg { width: 100%; height: 100%; min-height: 620px; object-fit: cover; object-position: center bottom; }
 .cryptid-camp figcaption { position: absolute; right: clamp(1rem,3vw,2.5rem); bottom: 1rem; color: rgba(237,245,239,.7); font: 700 .67rem/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
 .aurora-ribbon { stroke-width: 34; opacity: .3; }
-.aurora-ribbon-one { stroke: #67e2b5; animation: camp-aurora 10s ease-in-out infinite alternate; }
-.aurora-ribbon-two { stroke: #7ed8cf; stroke-width: 25; animation: camp-aurora 12s -4s ease-in-out infinite alternate-reverse; }
-.aurora-ribbon-three { stroke: #a889d9; stroke-width: 18; animation: camp-aurora 14s -7s ease-in-out infinite alternate; }
+.aurora-ribbon-one { stroke: url(#aurora-green); animation: camp-aurora 10s ease-in-out infinite alternate; }
+.aurora-ribbon-two { stroke: url(#aurora-blue); stroke-width: 25; animation: camp-aurora 12s -4s ease-in-out infinite alternate-reverse; }
+.aurora-ribbon-three { stroke: url(#aurora-violet); stroke-width: 18; animation: camp-aurora 14s -7s ease-in-out infinite alternate; }
+.aurora-edge { fill:none; stroke-width:3; opacity:.42; animation:aurora-shimmer 8s ease-in-out infinite alternate; }
+.aurora-edge-one { stroke:#b0ffe1; }.aurora-edge-two { stroke:#9ce9e1; animation-delay:-3s; }
+.aurora-curtains { transform-box:view-box; transform-origin:center top; animation:aurora-curtain-breathe 11s ease-in-out infinite alternate; }
+.milky-way { animation:milky-way-breathe 12s ease-in-out infinite alternate; }
 .camp-stars circle { transform-box: fill-box; transform-origin: center; animation: camp-twinkle 4s ease-in-out infinite; }
 .camp-stars circle:nth-child(3n+1) { animation-delay: -1.3s; }.camp-stars circle:nth-child(3n+2) { animation-delay: -2.6s; }
 .camp-moon { transform-box: fill-box; transform-origin: center; animation: moon-breathe 8s ease-in-out infinite; }
 .deep-forest { fill:#0b2828; stroke:#31554c; stroke-width:2.5; opacity:.88; }
 .river { filter:drop-shadow(0 0 12px rgba(77,143,145,.16)); }
 .river-ripples { animation:river-glint 5s ease-in-out infinite alternate; }
+.river-reflections { animation:river-reflection 6.5s ease-in-out infinite alternate; }
+.water-foam { animation:water-foam 4s ease-in-out infinite alternate; }
 .background-ufo { filter: drop-shadow(0 4px 8px rgba(0,0,0,.32)) drop-shadow(0 0 8px rgba(116,184,189,.14)); }
 .ufo-lights { fill:#eab94e; animation:ufo-lights 4.8s steps(1) infinite; }
 .tent-peekers { transform:none; }
@@ -259,15 +265,23 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .arm-bigfoot { transform-origin: 381px 523px; }.arm-alien { transform-origin: 469px 526px; animation-delay: -1.2s; }.arm-moth { transform-origin: 728px 526px; animation-delay: -2.4s; }.arm-dogman { transform-origin: 846px 527px; animation-delay: -3.6s; }
 .flame { transform-box: view-box; transform-origin: 608px 648px; }.flame-outer { animation: fire-dance .92s ease-in-out infinite alternate; }.flame-inner { animation: fire-dance .64s -.3s ease-in-out infinite alternate-reverse; }.flame-core { animation: fire-dance .48s -.16s ease-in-out infinite alternate; }
 .embers circle { animation: ember-rise 2.2s ease-out infinite; }.embers circle:nth-child(2) { animation-delay: -.8s; }.embers circle:nth-child(3) { animation-delay: -1.5s; }
-.smoke-number { font-family:var(--smoke-font); font-size:var(--smoke-size); font-weight:var(--smoke-weight); letter-spacing:var(--smoke-tracking); transform-box:fill-box; transform-origin:center bottom; }
-.smoke-number-haze { fill:none; stroke:#b9c8c5; stroke-width:18; opacity:.2; animation:smoke-haze 6s ease-in-out infinite alternate; }
-.smoke-number-entry { transform-box:fill-box; transform-origin:center bottom; animation:smoke-number-form 2.4s cubic-bezier(.5,0,.25,1) both; }
-.smoke-number-main { fill:#d4dedb; opacity:.76; animation:smoke-drift 7s 2.4s ease-in-out infinite alternate; }
+.smoke-number { font-family:var(--smoke-font); font-size:var(--smoke-size); font-weight:var(--smoke-weight); letter-spacing:0; transform-box:fill-box; transform-origin:center bottom; }
+.smoke-character { --smoke-delay:0s; }
+.smoke-character-zero { --smoke-delay:.32s; }.smoke-character-right { --smoke-delay:.64s; }
+.smoke-number-haze { fill:none; stroke:#b9c8c5; stroke-width:18; opacity:.2; animation:smoke-haze 6s calc(1.9s + var(--smoke-delay)) ease-in-out infinite alternate; }
+.smoke-character-entry { transform-box:fill-box; transform-origin:center bottom; animation:smoke-glyph-form 1.9s var(--smoke-delay) cubic-bezier(.5,0,.25,1) both; }
+.smoke-number-main { fill:#d4dedb; opacity:.76; animation:smoke-drift 7s calc(1.9s + var(--smoke-delay)) ease-in-out infinite alternate; }
+.forming-tendril { fill:none; stroke:#d4dedb; stroke-width:9; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; opacity:0; animation:smoke-tendril-form 1.9s var(--smoke-delay) cubic-bezier(.45,0,.3,1) both; }
 .smoke-thread { animation: smoke-thread 4s ease-in-out infinite; }
 @keyframes camp-aurora { 0% { opacity:.18; translate:-2% 3px; } 50% { opacity:.42; } 100% { opacity:.25; translate:2% -6px; } }
+@keyframes aurora-shimmer { from { opacity:.18;translate:-5px 2px; } to { opacity:.52;translate:7px -4px; } }
+@keyframes aurora-curtain-breathe { from { opacity:.58;scale:1 .92; } to { opacity:1;scale:1 1.05; } }
+@keyframes milky-way-breathe { from { opacity:.55; } to { opacity:1; } }
 @keyframes camp-twinkle { 0%,100% { opacity:.3; scale:.7; } 50% { opacity:1; scale:1.3; } }
 @keyframes moon-breathe { 0%,100% { opacity:.92; } 50% { opacity:1; } }
 @keyframes river-glint { from { opacity:.3;translate:-3px 0; } to { opacity:.68;translate:4px 0; } }
+@keyframes river-reflection { from { opacity:.55;translate:-2px 0; } to { opacity:1;translate:3px 1px; } }
+@keyframes water-foam { from { opacity:.28;translate:-1px 0; } to { opacity:.52;translate:2px 0; } }
 @keyframes ufo-lights { 0%,100% { opacity:.25; } 18%,72% { opacity:.9; } 20%,28% { opacity:.4; } }
 @keyframes dog-look { 0%,35%,100% { rotate:0deg; } 50%,68% { rotate:-5deg; } }
 @keyframes camera-snapshot { 0%,66%,69%,100% { opacity:1; } 67% { opacity:.1; } 68% { opacity:1; } }
@@ -275,7 +289,8 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 @keyframes roast-turn { 0%,100% { rotate:-2deg; } 50% { rotate:3deg; } }
 @keyframes fire-dance { from { scale:.92 1; rotate:-2deg; } to { scale:1.04 .92; rotate:3deg; } }
 @keyframes ember-rise { 0% { opacity:0; translate:0 14px; scale:.5; } 30% { opacity:1; } 100% { opacity:0; translate:8px -40px; scale:.15; } }
-@keyframes smoke-number-form { from { opacity:0;translate:0 32px;scale:.96 .82; } to { opacity:.76;translate:0;scale:1; } }
+@keyframes smoke-glyph-form { 0%,22% { opacity:0;translate:0 42px;scale:.78 1.18; } 62% { opacity:.48;translate:0 12px;scale:.93 1.05; } 100% { opacity:1;translate:0;scale:1; } }
+@keyframes smoke-tendril-form { 0% { opacity:0;stroke-dashoffset:1; } 18% { opacity:.7; } 72% { opacity:.62;stroke-dashoffset:0; } 100% { opacity:0;stroke-dashoffset:0; } }
 @keyframes smoke-drift { 0% { translate:0; rotate:0deg; } 100% { translate:3px -7px; rotate:.8deg; } }
 @keyframes smoke-haze { from { opacity:.1;translate:-4px 2px; } to { opacity:.22;translate:5px -7px; } }
 @keyframes smoke-thread { 0%,100% { opacity:.3; translate:0 4px; } 50% { opacity:.65; translate:3px -4px; } }
