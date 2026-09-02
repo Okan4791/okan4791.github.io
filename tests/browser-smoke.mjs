@@ -132,6 +132,9 @@ try {
 
   await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
   await new Promise((done) => setTimeout(done, 200));
+  const commandPalette = await send('Runtime.evaluate', { expression: `(()=>{const picker=document.querySelector('.palette-picker');document.dispatchEvent(new KeyboardEvent('keydown',{key:'k',metaKey:true,bubbles:true}));const dialog=document.querySelector('.command-palette');const input=dialog.querySelector('input');input.value='privacy';input.dispatchEvent(new Event('input',{bubbles:true}));const selected=dialog.querySelector('[aria-selected="true"]');const state={open:dialog.open,focused:document.activeElement===input,results:dialog.querySelectorAll('[role="option"]').length,selected:selected?.querySelector('b')?.textContent,pickerHidden:picker.hidden};dialog.close();return state})()`, returnByValue: true });
+  const commandValue = commandPalette.result.value;
+  if (!commandValue.open || !commandValue.focused || commandValue.results < 1 || commandValue.selected !== 'Privacy Devices' || !commandValue.pickerHidden) throw new Error(`command palette failed: ${JSON.stringify(commandValue)}`);
   const paletteSelection = await send('Runtime.evaluate', { expression: `(()=>{const inputs=[...document.querySelectorAll('.palette-picker input[name="portfolio-palette"]')];const glacier=inputs.find((input)=>input.value==='glacier');glacier.checked=true;glacier.dispatchEvent(new Event('change',{bubbles:true}));const style=getComputedStyle(document.documentElement);return {count:inputs.length,selected:document.documentElement.dataset.palette,accent:style.getPropertyValue('--copper').trim()}})()`, returnByValue: true });
   const paletteValue = paletteSelection.result.value;
   if (paletteValue.count !== 4 || paletteValue.selected !== 'glacier' || !['#28769c','#70bce2'].includes(paletteValue.accent)) throw new Error(`palette selection failed: ${JSON.stringify(paletteValue)}`);
