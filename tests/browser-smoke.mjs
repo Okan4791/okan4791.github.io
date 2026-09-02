@@ -1,5 +1,5 @@
 import { createServer } from 'node:http';
-import { createReadStream, existsSync, statSync } from 'node:fs';
+import { createReadStream, existsSync, mkdtempSync, statSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
 
@@ -21,13 +21,16 @@ await new Promise((done) => server.listen(4173, '127.0.0.1', done));
 
 const browser = ['/usr/bin/google-chrome', '/usr/bin/google-chrome-stable', '/usr/bin/chromium'].find(existsSync);
 if (!browser) throw new Error('Chrome or Chromium is required for the browser smoke test');
-const chrome = spawn(browser, ['--headless', '--disable-gpu', '--no-sandbox', '--remote-debugging-port=9222', '--user-data-dir=/tmp/bolens-site-smoke', 'about:blank'], { stdio: 'ignore' });
+const profile = mkdtempSync('/tmp/bolens-site-smoke-');
+const chrome = spawn(browser, ['--headless=new', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox', '--no-first-run', '--no-default-browser-check', '--remote-debugging-address=127.0.0.1', '--remote-debugging-port=9222', `--user-data-dir=${profile}`, 'about:blank'], { stdio: ['ignore', 'ignore', 'pipe'] });
+let browserLog = '';
+chrome.stderr.on('data', (chunk) => { browserLog += chunk.toString(); });
 
 async function waitForDebugger() {
   for (let attempt = 0; attempt < 50; attempt++) {
     try { return await fetch('http://127.0.0.1:9222/json/version').then((result) => result.json()); } catch { await new Promise((done) => setTimeout(done, 100)); }
   }
-  throw new Error('browser debugger did not start');
+  throw new Error(`browser debugger did not start with ${browser}: ${browserLog.slice(-1200)}`);
 }
 
 let socket;
