@@ -11,8 +11,11 @@
   <g fill="#edf4f3" stroke="#142c2b" stroke-width="4">
     <circle cx="731" cy="493" r="21"/><circle cx="914" cy="391" r="21"/><circle cx="1076" cy="254" r="21"/><circle cx="1144" cy="160" r="21"/>
   </g>
-  <circle cx="90" cy="89" r="30" fill="none" stroke="#142c2b" stroke-width="2"/>
-  <text x="90" y="96" text-anchor="middle" fill="#142c2b" font-family="ui-monospace,monospace" font-size="18" font-weight="700">MB</text>
+  <g transform="translate(58 57) scale(1.35)">
+    <path d="M7 6h27l8 8v28H15l-8-8Z" fill="none" stroke="#142c2b" stroke-width="1.75" stroke-linejoin="bevel"/>
+    <path d="M14 33h10V15h11M24 33h11v-9" fill="none" stroke="#142c2b" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"/>
+    <circle cx="24" cy="33" r="3.2" fill="#b64c32" stroke="#edf4f3" stroke-width="1.5"/>
+  </g>
   <text x="76" y="192" fill="#142c2b" font-family="ui-monospace,monospace" font-size="18" font-weight="700" letter-spacing="3">MICHAEL BOLENS · SYSTEMS BUILDER</text>
   <text x="76" y="319" fill="#142c2b" font-family="Georgia,serif" font-size="78" letter-spacing="-4">Practical tools,</text>
   <text x="76" y="405" fill="#b64c32" font-family="Georgia,serif" font-size="78" font-style="italic" letter-spacing="-4">close to the system.</text>

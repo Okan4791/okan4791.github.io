@@ -17,7 +17,14 @@ svg { display: block; max-width: 100%; }
 .skip-link:focus { transform: none; }
 :focus-visible { outline: 3px solid var(--copper); outline-offset: 4px; }
 .site-header { min-height: 92px; display: flex; justify-content: space-between; align-items: center; }
-.wordmark { display: grid; place-items: center; width: 44px; aspect-ratio: 1; border: 1.5px solid var(--ink); border-radius: 50%; text-decoration: none; font: 700 .75rem/1 var(--mono); letter-spacing: -.04em; }
+.wordmark { display: block; width: 46px; color: var(--ink); text-decoration: none; }
+.brand-mark { width: 100%; overflow: visible; scale: 1.12; }
+.brand-mark-frame { fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linejoin: bevel; }
+.brand-mark-route { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: square; stroke-linejoin: miter; }
+.brand-mark-node { fill: var(--copper); stroke: var(--paper); stroke-width: 1.5; }
+.wordmark .brand-mark-route, .wordmark .brand-mark-node { transition: stroke .2s, fill .2s, translate .2s; }
+.wordmark:hover .brand-mark-route { stroke: var(--copper); translate: 2px 0; }
+.wordmark:hover .brand-mark-node { fill: var(--ink); }
 nav { display: flex; align-items: center; gap: clamp(1.2rem, 3vw, 2.4rem); }
 nav a { text-decoration: none; font-size: .88rem; font-weight: 650; }
 nav a:not(.nav-cta) { padding-block: .6rem; background: linear-gradient(var(--copper),var(--copper)) 0 100%/0 2px no-repeat; transition: background-size .25s ease; }
@@ -132,7 +139,7 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 @keyframes fade-out { to { opacity: 0; transform: translateY(-8px); }} @keyframes fade-in { from { opacity: 0; transform: translateY(10px); }}
 @media (max-width: 780px) {
   :root { --wrap: min(100% - 28px, 680px); }
-  .site-header { min-height: 76px; }.wordmark { width: 40px; } nav { gap: 1rem; } nav a { font-size: .78rem; }.nav-cta { padding: .48rem .68rem; }
+  .site-header { min-height: 76px; }.wordmark { width: 42px; } nav { gap: 1rem; } nav a { font-size: .78rem; }.nav-cta { padding: .48rem .68rem; }
   .hero { min-height: auto; grid-template-columns: 1fr; padding-block: 4.5rem 4rem; }.signal-map { margin-top: 2rem; }.signal-map figcaption { margin-top: -.5rem; }
   .principles { grid-template-columns: 1fr; gap: 1rem; }.principles ul { flex-direction: column; gap: .65rem; }
   .section-heading { grid-template-columns: 1fr; }.section-heading .eyebrow { margin-bottom: 0; }.project-list { grid-template-columns: 1fr; }.project-featured { grid-column: auto; }.project-featured .project-visual { aspect-ratio: 1.55 / 1; }
