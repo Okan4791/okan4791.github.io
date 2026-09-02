@@ -132,6 +132,17 @@ try {
 
   await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
   await new Promise((done) => setTimeout(done, 200));
+  const paletteSelection = await send('Runtime.evaluate', { expression: `(()=>{const inputs=[...document.querySelectorAll('.palette-picker input')];const glacier=inputs.find((input)=>input.value==='glacier');glacier.checked=true;glacier.dispatchEvent(new Event('change',{bubbles:true}));const style=getComputedStyle(document.documentElement);return {count:inputs.length,selected:document.documentElement.dataset.palette,accent:style.getPropertyValue('--copper').trim()}})()`, returnByValue: true });
+  const paletteValue = paletteSelection.result.value;
+  if (paletteValue.count !== 4 || paletteValue.selected !== 'glacier' || !['#28769c','#70bce2'].includes(paletteValue.accent)) throw new Error(`palette selection failed: ${JSON.stringify(paletteValue)}`);
+  await send('Page.navigate', { url: 'http://127.0.0.1:4173/about/' });
+  await new Promise((done) => setTimeout(done, 200));
+  const persistedPalette = await send('Runtime.evaluate', { expression: `({selected:document.documentElement.dataset.palette,checked:document.querySelector('.palette-picker input:checked')?.value})`, returnByValue: true });
+  if (persistedPalette.result.value.selected !== 'glacier' || persistedPalette.result.value.checked !== 'glacier') throw new Error(`palette persistence failed: ${JSON.stringify(persistedPalette.result.value)}`);
+  await send('Runtime.evaluate', { expression: `localStorage.removeItem('portfolio-palette');document.documentElement.dataset.palette='alpine'` });
+
+  await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
+  await new Promise((done) => setTimeout(done, 200));
   const motion = await send('Runtime.evaluate', { expression: `(()=>{
     const ddns=document.querySelector('.visual-ddns svg');
     const packet=document.querySelector('.ddns-packets circle');
