@@ -150,13 +150,13 @@
         picker.hidden = true;
         return;
       }
-      if (event.key.toLowerCase() === 'k' && event.metaKey && !event.altKey && !event.ctrlKey && !event.shiftKey) {
+      if (event.key.toLowerCase() === 'k' && event.altKey && !event.metaKey && !event.ctrlKey && !event.shiftKey) {
         event.preventDefault();
         if (dialog.open) dialog.close();
         else openCommands();
         return;
       }
-      if (isEditing || event.key.toLowerCase() !== 'p' || !event.shiftKey || event.altKey || event.ctrlKey || event.metaKey) return;
+      if (isEditing || event.key.toLowerCase() !== 'p' || !event.altKey || event.shiftKey || event.ctrlKey || event.metaKey) return;
       event.preventDefault();
       picker.hidden = !picker.hidden;
       picker.open = !picker.hidden;
