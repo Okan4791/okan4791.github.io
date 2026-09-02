@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How uDDNS turns provider-specific dynamic DNS updates into one inspectable, safety-conscious service.">
+  <meta name="theme-color" content="#edf4f3" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#102322" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="uDDNS case study | Michael Bolens"><meta property="og:description" content="One update loop across multiple DNS providers, with strict configuration and guarded network boundaries.">
+  <meta property="og:type" content="article"><meta property="og:url" content="https://bolens.github.io/case-studies/uddns/"><meta property="og:image" content="https://bolens.github.io/assets/social-card.png"><meta property="og:image:alt" content="Michael Bolens, systems builder. Practical tools, close to the system.">
+  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://bolens.github.io/assets/social-card.png">
+  <title>uDDNS case study | Michael Bolens</title><link rel="canonical" href="https://bolens.github.io/case-studies/uddns/"><link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap"><a class="wordmark" href="../../" aria-label="Michael Bolens, home"><span aria-hidden="true">MB</span></a><nav aria-label="Primary navigation"><a aria-current="page" href="../../work/">Work</a><a href="../../about/">About</a><a class="nav-cta" rel="me" href="https://github.com/bolens">GitHub <span aria-hidden="true">↗</span></a></nav></header>
+  <main id="main" class="case-page wrap" tabindex="-1">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../../work/">Work</a><span aria-hidden="true">/</span><span aria-current="page">uDDNS</span></nav>
+    <header class="case-intro"><p class="eyebrow">Infrastructure · TypeScript</p><h1>One update loop.<br><em>Many providers.</em></h1><p class="lede">uDDNS checks the public IP, compares per-host checkpoints, and updates DNS only when an address changes.</p><dl class="case-facts"><div><dt>Role</dt><dd>Design and implementation</dd></div><div><dt>Interfaces</dt><dd>Daemon · CLI · Docker · MCP</dd></div><div><dt>Project</dt><dd><a href="https://github.com/bolens/uddns">Source and documentation <span aria-hidden="true">↗</span></a></dd></div></dl></header>
+    <figure class="case-route" aria-labelledby="route-title"><svg viewBox="0 0 1100 260" role="img"><title id="route-title">The uDDNS design route from problem to result</title><path class="case-route-line" d="M115 175C300 175 310 79 512 79s211 96 425 96"/><g transform="translate(115 175)"><circle r="18"/><text y="52" text-anchor="middle">PROBLEM</text></g><g transform="translate(512 79)"><circle r="18"/><text y="-38" text-anchor="middle">DECISION</text></g><g transform="translate(937 175)"><circle r="18"/><text y="52" text-anchor="middle">RESULT</text></g></svg></figure>
+    <article class="case-story">
+      <section><p class="eyebrow">Problem</p><h2>Dynamic DNS APIs agree on the goal, not the protocol.</h2><div class="prose"><p>Providers differ in authentication, record lookup, response shape, and dual-stack behavior. A useful updater also has to distinguish a real IP change from a temporary discovery failure.</p><p>Running several accounts adds another constraint: one failed host should not force successful hosts through the same update again.</p></div></section>
+      <section><p class="eyebrow">Decision</p><h2>Keep the loop small and move variation behind provider contracts.</h2><div class="prose"><p>Each provider implements one registered update interface. Configuration is schema-validated, unsupported keys fail early, and each host receives an independent atomic checkpoint.</p><p>Public-IP and provider requests use pin-on-connect HTTPS. The client rejects loopback, link-local, metadata, and private destinations by default, then connects only to the verified address set. Transient failures use bounded retry with jitter and honor <code>Retry-After</code>.</p></div></section>
+      <section><p class="eyebrow">Result</p><h2>One operational model across fifteen provider families.</h2><div class="prose"><p>The same core supports a long-running daemon, one-shot CLI calls, Docker deployments, and optional MCP transports. Multi-account YAML can also define ordered failover for hostnames served by more than one DNS provider.</p><p>Documentation-contract tests keep provider IDs, defaults, commands, and security allowlists aligned with the implementation.</p></div></section>
+    </article>
+    <nav class="case-next" aria-label="Case studies"><span>Next case study</span><a href="../aur-response-toolkit/">AUR Response Toolkit <span aria-hidden="true">→</span></a></nav>
+  </main>
+  <footer class="site-footer wrap"><p>Michael Bolens</p><a href="../../work/">All work <span aria-hidden="true">→</span></a></footer>
+</body></html>

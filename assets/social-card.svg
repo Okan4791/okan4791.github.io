@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Michael Bolens, systems builder</title>
+  <desc id="desc">Practical tools, close to the system, with a route connecting Linux, infrastructure, desktop, and gaming.</desc>
+  <rect width="1200" height="630" fill="#edf4f3"/>
+  <g fill="none" stroke="#b9c9c6" stroke-width="2">
+    <path d="M710 533c88-111 169-54 238-139 68-84 46-181 177-246"/>
+    <path d="M673 489c91-104 163-52 228-132 69-85 45-190 181-260"/>
+    <path d="M756 572c80-95 156-49 229-129 65-71 64-153 155-203"/>
+  </g>
+  <path d="M731 493c91 0 106-103 183-102 81 1 70-137 162-137 36 0 51-48 68-94" fill="none" stroke="#b64c32" stroke-width="8" stroke-linecap="round"/>
+  <g fill="#edf4f3" stroke="#142c2b" stroke-width="4">
+    <circle cx="731" cy="493" r="21"/><circle cx="914" cy="391" r="21"/><circle cx="1076" cy="254" r="21"/><circle cx="1144" cy="160" r="21"/>
+  </g>
+  <circle cx="90" cy="89" r="30" fill="none" stroke="#142c2b" stroke-width="2"/>
+  <text x="90" y="96" text-anchor="middle" fill="#142c2b" font-family="ui-monospace,monospace" font-size="18" font-weight="700">MB</text>
+  <text x="76" y="192" fill="#142c2b" font-family="ui-monospace,monospace" font-size="18" font-weight="700" letter-spacing="3">MICHAEL BOLENS · SYSTEMS BUILDER</text>
+  <text x="76" y="319" fill="#142c2b" font-family="Georgia,serif" font-size="78" letter-spacing="-4">Practical tools,</text>
+  <text x="76" y="405" fill="#b64c32" font-family="Georgia,serif" font-size="78" font-style="italic" letter-spacing="-4">close to the system.</text>
+  <text x="78" y="505" fill="#536765" font-family="ui-sans-serif,system-ui,sans-serif" font-size="25">Linux · infrastructure · desktop · gaming</text>
+</svg>
