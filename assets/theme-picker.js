@@ -25,9 +25,9 @@
     selected = name in palettes ? name : 'glacier';
     document.documentElement.dataset.palette = selected;
     const palette = palettes[selected];
-    document.querySelector('meta[name="theme-color"][media*="light"]')?.setAttribute('content', palette.light);
-    document.querySelector('meta[name="theme-color"][media*="dark"]')?.setAttribute('content', palette.dark);
-    document.querySelector('meta[name="theme-color"]:not([media])')?.setAttribute('content', palette.dark);
+    document.querySelector('meta[name="theme-color"][media*="light"]')?.setAttribute('content', selectedTheme === 'night' ? palette.dark : palette.light);
+    document.querySelector('meta[name="theme-color"][media*="dark"]')?.setAttribute('content', selectedTheme === 'day' ? palette.light : palette.dark);
+    document.querySelector('meta[name="theme-color"]:not([media])')?.setAttribute('content', selectedTheme === 'day' ? palette.light : palette.dark);
     try { localStorage.setItem(storageKey, selected); } catch {}
   };
 
@@ -36,6 +36,10 @@
     selectedTheme = ['auto', 'day', 'night'].includes(theme) ? theme : 'auto';
     if (selectedTheme === 'auto') delete document.documentElement.dataset.theme;
     else document.documentElement.dataset.theme = selectedTheme;
+    const palette = palettes[selected];
+    document.querySelector('meta[name="theme-color"][media*="light"]')?.setAttribute('content', selectedTheme === 'night' ? palette.dark : palette.light);
+    document.querySelector('meta[name="theme-color"][media*="dark"]')?.setAttribute('content', selectedTheme === 'day' ? palette.light : palette.dark);
+    document.querySelector('meta[name="theme-color"]:not([media])')?.setAttribute('content', selectedTheme === 'day' ? palette.light : palette.dark);
     try { localStorage.setItem(themeStorageKey, selectedTheme); } catch {}
   };
   applyTheme(selectedTheme);
@@ -46,7 +50,7 @@
     picker.hidden = true;
     picker.innerHTML = `
       <summary><span class="palette-current" aria-hidden="true"></span><span>Palette</span></summary>
-      <fieldset>
+      <div class="palette-panels"><fieldset>
         <legend>Choose a color palette</legend>
         ${Object.entries(palettes).map(([name, palette]) => `
           <label data-palette-option="${name}">
@@ -54,12 +58,12 @@
             <span class="palette-swatches" aria-hidden="true"><i></i><i></i><i></i></span>
             <span>${palette.label}</span>
           </label>`).join('')}
-      </fieldset>`;
+      </fieldset></div>`;
 
     const themeFieldset = document.createElement('fieldset');
     themeFieldset.className = 'theme-options';
     themeFieldset.innerHTML = `<legend>Choose an appearance</legend>${['auto', 'day', 'night'].map((theme) => `<label><input type="radio" name="portfolio-theme" value="${theme}"${theme === selectedTheme ? ' checked' : ''}><span>${theme === 'auto' ? 'System' : theme[0].toUpperCase() + theme.slice(1)}</span></label>`).join('')}`;
-    picker.append(themeFieldset);
+    picker.querySelector('.palette-panels').append(themeFieldset);
 
     picker.addEventListener('change', (event) => {
       if (!(event.target instanceof HTMLInputElement)) return;
