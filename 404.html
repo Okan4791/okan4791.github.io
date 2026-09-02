@@ -33,6 +33,8 @@
           <linearGradient id="tent-cloth" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#cc5b3c"/><stop offset="1" stop-color="#7d3028"/></linearGradient>
           <linearGradient id="pine-lit" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#315f4e"/><stop offset=".42" stop-color="#173d35"/><stop offset="1" stop-color="#071d1d"/></linearGradient>
           <linearGradient id="forest-floor-depth" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#294b43"/><stop offset=".38" stop-color="#163630"/><stop offset="1" stop-color="#071b19"/></linearGradient>
+          <linearGradient id="mountain-far" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#274653"/><stop offset=".55" stop-color="#16323d"/><stop offset="1" stop-color="#0a222b"/></linearGradient>
+          <linearGradient id="mountain-near" x1=".2" y1="0" x2=".8" y2="1"><stop stop-color="#35545d"/><stop offset=".28" stop-color="#1d3d48"/><stop offset=".7" stop-color="#102c36"/><stop offset="1" stop-color="#071e28"/></linearGradient>
           <linearGradient id="bigfoot-fire" x1="0" y1="0" x2="1" y2=".55"><stop stop-color="#5a392b"/><stop offset=".7" stop-color="#76513a"/><stop offset="1" stop-color="#b87648"/></linearGradient>
           <linearGradient id="alien-fire" x1="0" y1=".2" x2="1" y2=".8"><stop stop-color="#718482"/><stop offset=".68" stop-color="#91a3a0"/><stop offset="1" stop-color="#d6a56e"/></linearGradient>
           <linearGradient id="moth-fire" x1="1" y1=".2" x2="0" y2=".8"><stop stop-color="#292330"/><stop offset=".72" stop-color="#403347"/><stop offset="1" stop-color="#9b5946"/></linearGradient>
@@ -46,6 +48,10 @@
           <linearGradient id="marshmallow-toast" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff9e9"/><stop offset=".55" stop-color="#f2dfbe"/><stop offset="1" stop-color="#c9874f"/></linearGradient>
           <pattern id="bark-grain" width="28" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(-4)"><rect width="28" height="18" fill="#4a2d20"/><path d="M-3 4Q7 0 17 4T33 4M2 13q8-4 17 0t15 0" fill="none" stroke="#79513a" stroke-width="3"/><circle cx="8" cy="8" r="2.5" fill="none" stroke="#2b1c18" stroke-width="1.5"/></pattern>
           <filter id="camp-soft"><feGaussianBlur stdDeviation="10"/></filter>
+          <filter id="scene-grain" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="3" seed="19" stitchTiles="stitch"/>
+            <feColorMatrix type="saturate" values="0"/>
+          </filter>
           <filter id="smoke-texture" x="550" y="215" width="385" height="225" filterUnits="userSpaceOnUse">
             <feTurbulence type="fractalNoise" baseFrequency=".025 .08" numOctaves="2" seed="7" result="noise"/>
             <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="B"/>
@@ -93,8 +99,8 @@
           <path d="M979 93c12-5 20 2 17 10s-14 10-22 3m47 29c9-4 18 1 16 8s-12 9-20 4m-8-55c6-3 12 0 11 5s-7 7-12 4" fill="none" stroke="#d8cfaa" stroke-width="5" stroke-linecap="round"/>
         </g>
 
-        <path d="M0 421 84 335l65 39 91-116 75 68 96-159 112 151 72-74 75 82 111-153 111 122 89-84 74 79 145 126v112H0Z" fill="#0b202b" opacity=".72"/>
-        <path d="M0 397 126 276l93 72 112-161 134 156 91-83 95 103 119-170 131 145 91-101 208 183v141H0Z" fill="#102a34"/>
+        <path d="M0 421 84 335l65 39 91-116 75 68 96-159 112 151 72-74 75 82 111-153 111 122 89-84 74 79 145 126v112H0Z" fill="url(#mountain-far)" opacity=".78"/>
+        <path d="M0 397 126 276l93 72 112-161 134 156 91-83 95 103 119-170 131 145 91-101 208 183v141H0Z" fill="url(#mountain-near)"/>
         <g class="mountain-faces">
           <path d="m126 276 93 72-49-8-34 43-10-62-48 43Z" fill="#173542"/><path d="m331 187 134 156-91-72-43 53-27-73-59 60Z" fill="#173744"/>
           <path d="m556 260 95 103-59-48-36 47-24-58-43 40Z" fill="#0c2631"/><path d="m770 193 131 145-85-69-46 54-29-79-54 58Z" fill="#193946"/>
@@ -108,13 +114,19 @@
             <path d="m244 310 31-22 18-37 22 5 16-69m2 66 20-14 16 10 28-7m290 59 25-25 16 5 18-37 17 7 27-58m2 70 23-21 22 9 28-13m70 122 24-30 21 7 18-43 27 10 19-58" stroke="#6f898b" stroke-width="3"/>
             <path d="m93 364 19-9 14-79m74 70 19 2 24-35m263 38 22-8 28-83m74 82 21 21 19-25m290 52 28-19 24-134" stroke="#071c25" stroke-width="5"/>
           </g>
+          <g class="mountain-scree" fill="#698084" opacity=".28"><path d="m286 292 7-10 10 4-2 9-8 4Zm35-30 5-8 9 3-1 8-7 3Zm43 11 6-7 8 5-3 7-7 1Zm361-10 6-10 10 5-3 9-8 2Zm42-34 7-9 10 6-4 8-8 2Zm38 31 5-7 9 4-2 7-7 2Zm153 79 7-11 11 5-3 10-9 3Zm45-43 6-9 10 5-3 9-8 2Z"/></g>
         </g>
         <path d="M0 435q105-62 207-21 98 39 191-13 106-60 212 3 90 54 189 4 117-58 201 8 86 67 200 8v103H0Z" fill="#163a3c" opacity=".78"/>
         <path d="M0 446c169-55 331-34 486-2 206 43 386-27 714-14v330H0Z" fill="url(#forest-floor-depth)"/>
+        <g class="forest-mist" fill="#9bb8b0" filter="url(#camp-soft)" opacity=".075"><ellipse cx="340" cy="458" rx="260" ry="34"/><ellipse cx="884" cy="483" rx="310" ry="39"/><ellipse cx="625" cy="548" rx="245" ry="27"/></g>
         <g class="forest-floor-contours" fill="none" stroke-linecap="round">
           <path d="M17 516q128-45 260-9t255 1m304-6q171-54 338-8M83 573q102-31 207-5m640-4q112-33 219-5" stroke="#38594a" stroke-width="5" opacity=".28"/>
           <path d="M42 626q67-24 128-15m803 9q84-26 167-11M270 719q113-24 213-7m324 5q79-22 151-8" stroke="#091e1b" stroke-width="11" opacity=".55"/>
           <g stroke="#6b5b3b" stroke-width="2" opacity=".38"><path d="m183 546 31-8m-12 17 38-6m78 14 29-7m-18 19 44-7m516-18 32-8m-11 19 39-8m72 20 34-9m-17 22 42-9"/></g>
+        </g>
+        <g class="forest-litter" fill="none" stroke-linecap="round" opacity=".5">
+          <path d="m286 509 19-8m-12 19 24-10m24 5 18-7m-10 19 27-9m55 21 21-8m-9 19 24-9m61-3 18-7m-8 18 26-10m306-22 21-9m-10 20 27-10m39 19 18-7m-9 18 25-9m42 19 20-8m-10 19 28-10" stroke="#89704d" stroke-width="2"/>
+          <path d="m273 526 6 5 8-8m43 12 7 6 9-10m79 25 7 5 8-9m62 7 6 5 9-9m351-10 7 6 9-10m58 20 7 5 8-9m48 22 7 5 9-10" stroke="#2d4c3e" stroke-width="3"/>
         </g>
         <g class="river">
           <path d="M596 344q-17 27-50 43-35 17-60 48l-12-8q22-34 60-55 28-15 43-36Z" fill="#173f49"/>
@@ -172,6 +184,13 @@
           <g stroke="#214a3e" stroke-width="5"><path d="M106 307q-25 8-49 31m49-31q27 8 52 32M106 355q-38 12-72 43m72-43q42 11 77 45M106 405q-49 15-87 51m87-51q51 13 91 52M201 365q-25 9-48 31m48-31q28 8 52 32m-52 19q-35 12-62 38m62-38q34 10 64 37M1079 341q-32 10-59 37m59-37q35 10 64 39m-64 12q-44 13-79 45m79-45q45 12 82 45m1-42q-25 8-47 30m47-30q26 8 48 29M815 397q-24 8-44 29m44-29q25 8 47 28m-47 18q-31 10-55 32m55-32q31 9 56 31"/></g>
           <g stroke="#6b9a7d" stroke-width="2" opacity=".7"><path d="m57 338-18-1m28-10-15-8m31 5-9-15m84 30 17-2m-28-10 14-9m-30 6 8-15M34 398l-20 2m35-14-17-8m42 4-12-15m121 18 19 2m-34-13 17-10m-40 8 11-16m-3 40-18 1m31-12 14-10m-32 7 9-15m-18 87-20 3m36-17 18-10m-39 7 10-17m875-42-18 1m32-15-15-10m35 8-9-17m100 44 18 2m-32-14 16-9m-38 7 11-15m-6 49-20 2m37-16 18-10m-42 7 12-17m35 37-16 2m29-14 14-9m-33 7 9-14m-411 52-16 1m29-13-14-8m32 6-9-14m-34 52-18 3m33-15-16-10m37 7-11-15"/></g>
         </g>
+        <g class="pine-foliage-volume" stroke="none">
+          <path d="M91 269q15-18 30 1l-7 32q25-12 38 9-18 17-44 15-29 3-44-14 12-21 36-11Zm-32 75q47-27 92 0-9 31-45 30-37 3-47-30Zm-20 64q67-37 132 0-12 35-64 34-54 2-68-34Z" fill="#071c1c" opacity=".36"/>
+          <path d="M185 347q16-19 31 1l-5 26q20-8 31 8-15 14-40 12-25 2-38-13 9-16 29-8Zm-26 54q43-25 85 0-9 27-42 26-34 2-43-26Z" fill="#0a211f" opacity=".34"/>
+          <path d="M1064 320q16-21 32 1l-6 29q23-10 35 9-16 16-45 14-29 2-43-15 10-18 33-9Zm-35 61q51-29 101 0-10 31-50 30-41 2-51-30Zm-15 53q66-35 130 0-13 31-64 31-52 1-66-31Z" fill="#071b1b" opacity=".38"/>
+          <path d="M1150 380q13-16 25 1l-5 22q18-7 27 7-13 12-34 11-22 1-32-11 8-14 24-7Zm-21 43q35-20 69 0-7 22-34 21-28 2-35-21ZM802 393q12-15 24 1l-4 20q16-6 24 7-11 10-31 9-20 1-29-10 7-12 22-6Zm-18 39q31-18 61 0-6 20-30 19-25 1-31-19Z" fill="#0b2421" opacity=".36"/>
+          <path d="M96 281q10-8 20-4m-50 72q28-17 57-15m-72 77q35-22 75-20M190 356q12-8 24-5m-43 55q25-16 53-15M1065 332q12-9 25-5m-49 61q30-19 62-17m-76 68q38-22 79-20M1148 387q11-7 20-4m-30 45q20-12 41-11M800 399q10-7 19-4m-27 42q17-11 36-10" fill="none" stroke="#85a98e" stroke-width="4" stroke-linecap="round" opacity=".24"/>
+        </g>
         <g class="pine-detail" fill="none" stroke-linecap="round">
           <path d="M106 291q-15 25-38 39m38-17q22 8 40 27m-40 12q-32 18-56 43m56-17q34 13 59 42M201 349q-21 17-37 41m37-18q25 12 44 35M1079 325q-27 19-47 48m47-21q31 13 54 41m29-22q-20 16-35 38m35-15q23 10 41 32M815 393q-20 14-35 35m35-13q22 9 39 29" stroke="#4b7d6c" stroke-width="2.5" opacity=".72"/>
           <path d="m69 330-15 3m28-15-12-8m65 29 15 2m-27-15 12-9m-85 78-18 5m36-19-15-9m96 48 18 3m-32-17 14-10m882-22-17 4m33-18-14-9m72 47 18 4m-32-18 15-10m-85 69-20 5m38-20-16-10m95 45 17 4m-31-18 14-9m-405-15-15 4m29-16-12-8m58 35 16 3m-29-15 13-9" stroke="#79a18e" stroke-width="2" opacity=".48"/>
@@ -195,7 +214,7 @@
           <g class="firefly-phase-three"><circle cx="279" cy="493" r="2"/><circle cx="445" cy="523" r="1.7"/><circle cx="628" cy="472" r="2.1"/><circle cx="807" cy="538" r="1.5"/><circle cx="980" cy="486" r="1.6"/><circle cx="1142" cy="553" r="2.2"/></g>
         </g>
 
-        <g class="camp-boulders" stroke="#172826" stroke-width="3" stroke-linejoin="round">
+        <g class="camp-boulders" stroke="#172826" stroke-width="2.2" stroke-linejoin="round">
           <g transform="translate(126 526)">
             <path d="M-67 56-53 17-21-7 22 0 54 31 62 56Z" fill="url(#moon-rock)"/>
             <path d="m-53 17 32-24 9 35-31 28m31-28L22 0l32 31-38 25Z" fill="#334b49"/>
@@ -214,6 +233,7 @@
             <path d="m-37 7 28-13M2 17 27 1" fill="none" stroke="#d08a58" stroke-width="3" opacity=".62"/>
           </g>
         </g>
+        <g class="boulder-lichen" fill="#8da06f" opacity=".48"><circle cx="82" cy="548" r="4"/><circle cx="94" cy="543" r="2.5"/><circle cx="111" cy="553" r="3"/><circle cx="1003" cy="581" r="4"/><circle cx="1015" cy="574" r="2.5"/><circle cx="1030" cy="585" r="3.5"/><circle cx="340" cy="685" r="2.5"/><circle cx="354" cy="679" r="3"/></g>
         <g class="background-trail" stroke-linecap="round" stroke-linejoin="round">
           <path d="M616 450q73 17 116 48 31 23 58 52 30 31 95 51 48 15 91 45l-42 23q-37-28-87-44-73-22-108-58-28-30-57-48-37-24-93-35Z" fill="#66543a" opacity=".52"/>
           <path d="M616 456q70 17 110 47 34 25 60 54 29 32 91 51 48 15 78 37" fill="none" stroke="#aa895a" stroke-width="7" opacity=".4"/>
@@ -285,8 +305,7 @@
         </g>
 
         <ellipse class="campfire-glow" cx="610" cy="641" rx="198" ry="105" fill="url(#fire-glow)" filter="url(#camp-soft)"/>
-        <g class="firelight-rings" fill="none" stroke="#ef8a48" opacity=".16"><ellipse cx="610" cy="665" rx="215" ry="49" stroke-width="3"/><ellipse cx="610" cy="666" rx="158" ry="35" stroke-width="2"/></g>
-        <g class="fire-ring-stones" stroke="#263432" stroke-width="3" stroke-linejoin="round">
+        <g class="fire-ring-stones" stroke="#263432" stroke-width="2.2" stroke-linejoin="round">
           <path d="m510 660 12-12 22 2 10 14-12 12-24-1Z" fill="#515b55"/><path d="m548 648 13-13 23 1 11 14-13 12-24 1Z" fill="#626b62"/>
           <path d="m591 642 13-12 24 2 9 14-14 11-23-1Z" fill="#566059"/><path d="m634 649 14-12 22 3 10 14-14 11-23-1Z" fill="#49534e"/>
           <path d="m674 661 13-10 21 5 8 15-15 10-21-4Z" fill="#59615a"/>
@@ -411,6 +430,8 @@
           <g stroke="#b7773f" stroke-width="2"><rect x="9" y="0" width="25" height="18" rx="2" fill="#d9a35f"/><path d="M21 0v18M9 9h25"/></g>
           <rect x="-7" y="3" width="18" height="13" rx="2" fill="#4a241d" stroke="#2d1714" stroke-width="2"/><path d="M-1 4v11m6-11v11" stroke="#704034" stroke-width="1.5"/>
         </g>
+
+        <rect class="scene-grain" width="1200" height="760" fill="#8fa39c" filter="url(#scene-grain)" opacity=".055" style="mix-blend-mode:soft-light" pointer-events="none"/>
 
         <g class="campfire" transform="translate(134 143) scale(.78)">
           <g class="coal-bed" stroke="#2c211d" stroke-width="3"><ellipse cx="559" cy="670" rx="18" ry="9" fill="#7e3326"/><ellipse cx="585" cy="679" rx="19" ry="9" fill="#472725"/><ellipse cx="615" cy="679" rx="20" ry="10" fill="#92392a"/><ellipse cx="644" cy="669" rx="18" ry="9" fill="#512624"/><circle cx="574" cy="665" r="5" fill="#ff9a45"/><circle cx="628" cy="668" r="4" fill="#ffd05c"/></g>
