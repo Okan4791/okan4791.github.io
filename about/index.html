@@ -2,29 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="About Michael Bolens and his approach to building practical systems software.">
+  <meta name="description" content="How Michael Bolens designs inspectable Linux tools, local-first interfaces, and practical recovery paths.">
   <meta property="og:title" content="About Michael Bolens">
-  <meta property="og:description" content="How Michael approaches practical systems software.">
+  <meta property="og:description" content="An approach to Linux tools built around visible state, narrow dependencies, and clear recovery paths.">
   <meta property="og:type" content="website"><meta property="og:url" content="https://bolens.github.io/about/">
   <meta property="og:image" content="https://bolens.github.io/assets/social-card.png"><meta property="og:image:alt" content="Michael Bolens, systems builder. Practical tools, close to the system.">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://bolens.github.io/assets/social-card.png">
   <meta name="theme-color" content="#edf4f3" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#102322" media="(prefers-color-scheme: dark)"><title>About | Michael Bolens</title>
-  <link rel="canonical" href="https://bolens.github.io/about/"><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="../assets/site.css">
+  <link rel="canonical" href="https://bolens.github.io/about/"><link rel="icon" href="../assets/favicon.svg" type="image/svg+xml"><script src="/assets/theme-picker.js"></script><link rel="stylesheet" href="../assets/site.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header wrap"><a class="wordmark" href="../" aria-label="Michael Bolens, home"><svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true"><path class="brand-mark-frame" d="M7 6h27l8 8v28H15l-8-8Z"/><path class="brand-mark-route" d="M14 33h10V15h11M24 33h11v-9"/><circle class="brand-mark-node" cx="24" cy="33" r="3.2"/></svg></a><nav aria-label="Primary navigation"><a href="../#selected-work">Work</a><a aria-current="page" href="./">About</a><a class="nav-cta" rel="me" href="https://github.com/bolens">GitHub <span aria-hidden="true">↗</span></a></nav></header>
   <main id="main" class="inner-page wrap" tabindex="-1">
-    <header class="page-intro" data-reveal><p class="eyebrow">About</p><h1>I like software that<br><em>explains itself.</em></h1><p class="lede">I build practical tools near the boundary between people and their systems. A clear status, safe default, or repeatable command can save an afternoon.</p></header>
-    <section class="about-grid" aria-label="How I work" data-reveal>
-      <h2>Working principles</h2>
-      <div class="prose">
-        <h3>Make the state visible.</h3><p>Whether it is a privacy device, DNS record, or launch chain, people should be able to see what the tool believes and what it will do next.</p>
-        <h3>Prefer boring dependencies.</h3><p>Small tools benefit from platform capabilities, plain formats, and escape hatches. The implementation should be easy to inspect and repair.</p>
-        <h3>Design the recovery path.</h3><p>Failures happen. A useful tool reports them precisely, preserves context, and gives the operator a clear next move.</p>
+    <header class="page-intro about-intro" data-reveal><p class="eyebrow">About · Michael Bolens</p><h1>I like software that<br><em>explains itself.</em></h1><p class="lede">I build practical tools near the boundary between people and their systems. A clear status, safe default, or repeatable command can save an afternoon.</p><p class="about-intro-note">My work tends to begin where a system’s answer is technically available but hard to see, trust, or act on.</p></header>
+    <section class="about-grid" aria-labelledby="about-approach" data-reveal>
+      <div class="about-heading"><p class="eyebrow">Approach</p><h2 id="about-approach">Build for the moment something goes sideways.</h2></div>
+      <div class="about-story">
+        <div class="about-prologue"><p>I’m Michael, a systems builder focused on Linux tools, operational workflows, and local-first interfaces. I enjoy turning scattered signals into one useful answer without hiding how that answer was reached.</p><p>That can mean reconciling privacy-device state across a desktop, keeping DNS records current across providers, or making an incident scan honest about what it could not inspect.</p></div>
+        <div class="about-principles">
+          <article><p class="eyebrow">Observe</p><h3>Make the state visible.</h3><p>People should be able to see what the tool believes, where that belief came from, and what it will do next.</p></article>
+          <article><p class="eyebrow">Restrain</p><h3>Keep the machinery inspectable.</h3><p>Platform capabilities, plain formats, and narrow dependencies make small tools easier to understand and repair.</p></article>
+          <article><p class="eyebrow">Recover</p><h3>Design the way back.</h3><p>A useful failure preserves context, names the boundary it reached, and leaves the operator with a clear next move.</p></article>
+        </div>
       </div>
     </section>
-    <section class="availability" data-reveal><p class="eyebrow">Elsewhere</p><h2>Find the code, history, and conversations on GitHub.</h2><a class="button" href="https://github.com/bolens">Visit my GitHub profile <span aria-hidden="true">↗</span></a></section>
+    <section class="about-field-notes" aria-labelledby="field-notes-title" data-reveal>
+      <header><p class="eyebrow">Field notes</p><h2 id="field-notes-title">The same instincts travel off-screen.</h2></header>
+      <dl><div><dt>Preferred terrain</dt><dd>Linux systems, operational tooling, and the seams between them.</dd></div><div><dt>Working bias</dt><dd>Inspectable over magical. Reversible over clever.</dd></div><div><dt>Outside</dt><dd>Hiking, camping, cycling, disc golf, and finding a good local beer.</dd></div></dl>
+    </section>
+    <section class="availability" data-reveal><p class="eyebrow">Follow the work</p><h2>The repositories carry the full trail: decisions, revisions, and working code.</h2><a class="button" href="https://github.com/bolens">Explore my GitHub profile <span aria-hidden="true">↗</span></a></section>
   </main>
   <footer class="site-footer wrap"><p>Michael Bolens</p><a href="../">Home <span aria-hidden="true">→</span></a></footer>
 </body></html>
