@@ -34,6 +34,19 @@
   const grain = Array.from({ length: restrained ? 80 : 150 }, () => ({
     x: random(), y: random(), radius: range(.25, .75), alpha: range(.012, .038)
   }));
+  const createGlowSprite = (size, colors) => {
+    const sprite = document.createElement('canvas');
+    sprite.width = sprite.height = size;
+    const spriteContext = sprite.getContext('2d');
+    const gradient = spriteContext.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    colors.forEach(([offset, color]) => gradient.addColorStop(offset, color));
+    spriteContext.fillStyle = gradient;
+    spriteContext.fillRect(0, 0, size, size);
+    return sprite;
+  };
+  const fireflyGlow = createGlowSprite(32, [[0, 'rgba(225,251,137,1)'], [.25, 'rgba(204,235,111,.45)'], [1, 'rgba(190,225,100,0)']]);
+  const grainLayer = document.createElement('canvas');
+  const grainContext = grainLayer.getContext('2d');
 
   let width = 0;
   let height = 0;
@@ -50,6 +63,16 @@
     canvas.width = Math.round(width * pixelRatio);
     canvas.height = Math.round(height * pixelRatio);
     context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    grainLayer.width = Math.round(width * pixelRatio);
+    grainLayer.height = Math.round(height * pixelRatio);
+    grainContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    grainContext.clearRect(0, 0, width, height);
+    grainContext.fillStyle = 'rgb(202 218 207)';
+    grain.forEach((speck) => {
+      grainContext.globalAlpha = speck.alpha;
+      grainContext.fillRect(speck.x * width, speck.y * height, speck.radius, speck.radius);
+    });
+    grainContext.globalAlpha = 1;
     if (reducedMotion.matches) draw(7.25);
   };
 
@@ -115,7 +138,10 @@
       const wave = .5 + .5 * Math.sin(time * fly.speed + fly.phase);
       const alpha = .045 + .3 * wave * wave;
       const [x, y] = point(fly.x + Math.sin(time * .13 + fly.phase) * fly.drift, fly.y + Math.cos(time * .1 + fly.phase) * 2.5);
-      paintGlow(x, y, 8 * view.scale, [[0, `rgba(225,251,137,${alpha})`], [.25, `rgba(204,235,111,${alpha * .45})`], [1, 'rgba(190,225,100,0)']]);
+      const glowSize = 16 * view.scale;
+      context.globalAlpha = alpha;
+      context.drawImage(fireflyGlow, x - glowSize / 2, y - glowSize / 2, glowSize, glowSize);
+      context.globalAlpha = 1;
       context.fillStyle = `rgba(234,255,159,${Math.min(.52, alpha + .12)})`;
       context.beginPath();
       context.arc(x, y, Math.max(.7, fly.radius * view.scale), 0, Math.PI * 2);
@@ -134,10 +160,7 @@
     });
 
     context.globalCompositeOperation = 'soft-light';
-    grain.forEach((speck) => {
-      context.fillStyle = `rgba(202,218,207,${speck.alpha})`;
-      context.fillRect(speck.x * width, speck.y * height, speck.radius, speck.radius);
-    });
+    context.drawImage(grainLayer, 0, 0, grainLayer.width, grainLayer.height, 0, 0, width, height);
     context.restore();
   };
 
