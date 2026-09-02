@@ -109,14 +109,14 @@
           <a class="project-link" href="case-studies/uddns/" aria-label="Read the uDDNS case study">
             <div class="project-visual visual-ddns" aria-hidden="true">
               <svg viewBox="0 0 720 420">
+                <g class="card-grid"><path d="M0 84h720M0 168h720M0 252h720M0 336h720"/><path d="M144 0v420M288 0v420M432 0v420M576 0v420"/></g>
                 <g class="ddns-routes">
                   <path id="ddns-route-a" d="M113 210C176 142 230 155 281 190" />
                   <path id="ddns-route-b" d="M590 119C518 103 473 129 439 174" />
                   <path id="ddns-route-c" d="M447 374C443 323 415 296 389 269" />
                 </g>
-                <g class="ddns-endpoints"><circle cx="113" cy="210" r="15"/><circle cx="590" cy="119" r="15"/><circle cx="447" cy="374" r="15"/></g>
-                <rect x="281" y="151" width="158" height="118" rx="10"/>
-                <path d="M312 188h96M312 211h65M312 234h81"/>
+                <g class="ddns-endpoints"><g transform="translate(113 210)"><circle r="20"/><circle class="endpoint-core" r="7"/><text y="40" text-anchor="middle">HOST A</text></g><g transform="translate(590 119)"><circle r="20"/><circle class="endpoint-core" r="7"/><text y="40" text-anchor="middle">HOST B</text></g><g transform="translate(447 374)"><circle r="20"/><circle class="endpoint-core" r="7"/><text y="-34" text-anchor="middle">HOST C</text></g></g>
+                <g class="ddns-server"><rect x="281" y="151" width="158" height="118" rx="10"/><path class="server-top" d="M281 180h158"/><circle cx="301" cy="166" r="4"/><circle cx="315" cy="166" r="4"/><path class="server-lines" d="M312 199h96M312 222h65M312 245h81"/><circle class="server-status" cx="411" cy="245" r="5"/></g>
                 <g class="ddns-packets">
                   <circle r="9"><animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#ddns-route-a"/></animateMotion></circle>
                   <circle r="9"><animateMotion dur="3.6s" begin="-1.2s" repeatCount="indefinite"><mpath href="#ddns-route-b"/></animateMotion></circle>
@@ -137,9 +137,12 @@
           <a class="project-link" href="case-studies/aur-response-toolkit/" aria-label="Read the AUR Response Toolkit case study">
             <div class="project-visual visual-shield" aria-hidden="true">
               <svg viewBox="0 0 560 360">
+                <g class="card-grid"><path d="M0 72h560M0 144h560M0 216h560M0 288h560"/><path d="M112 0v360M224 0v360M336 0v360M448 0v360"/></g>
                 <path class="shield" d="M280 57 415 104v88c0 76-54 116-135 143-81-27-135-67-135-143v-88Z"/>
+                <path class="shield-inset" d="M280 79 393 118v71c0 60-42 94-113 120-71-26-113-60-113-120v-71Z"/>
+                <g class="evidence-dots"><circle cx="218" cy="137" r="5"/><circle cx="341" cy="159" r="5"/><circle cx="205" cy="242" r="5"/></g>
                 <path class="scan" d="M190 184h180"/>
-                <path class="check" d="m228 189 34 34 77-84"/>
+                <path class="check" pathLength="1" d="m228 189 34 34 77-84"/>
                 <text x="280" y="319" text-anchor="middle">DETECT · TRIAGE · RECOVER</text>
               </svg>
             </div>
@@ -155,9 +158,13 @@
           <a class="project-link" href="case-studies/privacy-devices/" aria-label="Read the Privacy Devices case study">
             <div class="project-visual visual-devices" aria-hidden="true">
               <svg viewBox="0 0 560 360">
-                <rect x="104" y="85" width="352" height="190" rx="24"/>
-                <g class="device-lines"><path d="M153 139h254M153 181h254M153 223h254"/></g>
-                <g class="toggles"><circle cx="187" cy="139" r="14"/><circle cx="369" cy="181" r="14"/><circle cx="239" cy="223" r="14"/></g>
+                <g class="card-grid"><path d="M0 72h560M0 144h560M0 216h560M0 288h560"/><path d="M112 0v360M224 0v360M336 0v360M448 0v360"/></g>
+                <rect class="device-panel" x="104" y="68" width="352" height="224" rx="24"/>
+                <path class="device-header" d="M104 108h352"/><g class="window-dots"><circle cx="132" cy="88" r="5"/><circle cx="149" cy="88" r="5"/><circle cx="166" cy="88" r="5"/></g>
+                <g class="device-icons"><path d="M151 143v12a9 9 0 0 0 18 0v-12m-9 21v9m-8 0h16"/><rect x="151" y="139" width="18" height="21" rx="9"/><path d="M149 202h20l8-7v24l-8-7h-20Z"/><path d="M160 242c-9 0-15 7-15 15 0 11 15 25 15 25s15-14 15-25c0-8-6-15-15-15Zm0 10a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/></g>
+                <g class="device-labels"><path d="M196 150h88M196 207h112M196 264h72"/></g>
+                <g class="toggle-tracks"><rect x="354" y="137" width="58" height="28" rx="14"/><rect x="354" y="194" width="58" height="28" rx="14"/><rect x="354" y="251" width="58" height="28" rx="14"/></g>
+                <g class="toggles"><circle cx="369" cy="151" r="10"/><circle cx="369" cy="208" r="10"/><circle cx="369" cy="265" r="10"/></g>
                 <text x="280" y="319" text-anchor="middle">VISIBLE · REVERSIBLE · PER DEVICE</text>
               </svg>
             </div>
