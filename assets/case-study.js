@@ -4,14 +4,23 @@ const sections = routeLinks
   .filter(Boolean);
 
 function setActiveSection(id) {
+  const activeIndex = sections.findIndex((section) => section.id === id);
+
   for (const link of routeLinks) {
+    const linkIndex = routeLinks.indexOf(link);
     const active = link.getAttribute('href') === `#${id}`;
     if (active) link.setAttribute('aria-current', 'location');
     else link.removeAttribute('aria-current');
+    link.toggleAttribute('data-visited', linkIndex <= activeIndex);
   }
 
   for (const section of sections) {
     section.classList.toggle('is-active', section.id === id);
+  }
+
+  const route = document.querySelector('.case-route');
+  if (route && activeIndex >= 0) {
+    route.style.setProperty('--case-progress', activeIndex / Math.max(sections.length - 1, 1));
   }
 }
 
@@ -26,10 +35,23 @@ if (routeLinks.length && sections.length) {
     link.addEventListener('click', () => setActiveSection(link.hash.slice(1)));
   }
 
-  const observer = new IntersectionObserver((entries) => {
-    const visible = entries.find((entry) => entry.isIntersecting);
-    if (visible) setActiveSection(visible.target.id);
-  }, { rootMargin: '-30% 0px -60%', threshold: 0 });
+  let frame;
+  const updateFromScroll = () => {
+    frame = undefined;
+    const readingLine = innerHeight * .38;
+    const current = sections.reduce((active, section) =>
+      section.getBoundingClientRect().top <= readingLine ? section : active, sections[0]);
+    setActiveSection(current.id);
+  };
 
-  for (const section of sections) observer.observe(section);
+  addEventListener('scroll', () => {
+    if (!frame) frame = requestAnimationFrame(updateFromScroll);
+  }, { passive: true });
+  addEventListener('resize', updateFromScroll);
+  addEventListener('hashchange', () => {
+    if (sections.some((section) => section.id === location.hash.slice(1))) {
+      setActiveSection(location.hash.slice(1));
+    }
+  });
+  requestAnimationFrame(updateFromScroll);
 }
