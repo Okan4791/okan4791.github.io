@@ -18,7 +18,8 @@ const server = createServer((request, response) => {
   response.writeHead(200, { 'content-type': mime[extname(file)] ?? 'application/octet-stream' });
   createReadStream(file).pipe(response);
 });
-await new Promise((done) => server.listen(4173, '127.0.0.1', done));
+await new Promise((done) => server.listen(0, '127.0.0.1', done));
+const origin = `http://127.0.0.1:${server.address().port}`;
 
 const browser = ['/usr/bin/google-chrome', '/usr/bin/google-chrome-stable', '/usr/bin/chromium'].find(existsSync);
 if (!browser) throw new Error('Chrome or Chromium is required for the browser smoke test');
@@ -53,7 +54,7 @@ try {
     if (message.method === 'Runtime.exceptionThrown') errors.push(message.params.exceptionDetails.text);
     if (message.method === 'Log.entryAdded' && message.params.entry.level === 'error') {
       const { text: entryText, url: entryUrl = '' } = message.params.entry;
-      const expected404 = entryUrl === 'http://127.0.0.1:4173/missing-route' && entryText.includes('404');
+      const expected404 = entryUrl === `${origin}/missing-route` && entryText.includes('404');
       if (!expected404) errors.push(`${entryText}${entryUrl ? ` (${entryUrl})` : ''}`);
     }
     if (message.method === 'Network.loadingFailed' && !message.params.canceled) errors.push(message.params.errorText);
@@ -63,7 +64,7 @@ try {
     socket.send(JSON.stringify({ id: requestId, method, params }));
   });
   const capturePhase = async (width, name, selector, time, path = '/') => {
-    await send('Page.navigate', { url: `http://127.0.0.1:4173${path}` });
+    await send('Page.navigate', { url: `${origin}${path}` });
     await new Promise((done) => setTimeout(done, 200));
     await send('Runtime.evaluate', { expression: `
       document.documentElement.style.scrollBehavior='auto';
@@ -82,7 +83,7 @@ try {
     writeFileSync(`/tmp/bolens-${name}-${width}-${time}.png`, Buffer.from(capture.data, 'base64'));
   };
   const captureSequence = async (width, name, selector, times) => {
-    await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
+    await send('Page.navigate', { url: `${origin}/` });
     await new Promise((done) => setTimeout(done, 200));
     await send('Runtime.evaluate', { expression: `
       document.documentElement.style.scrollBehavior='auto';
@@ -102,13 +103,13 @@ try {
   };
   await Promise.all(['Page.enable', 'Runtime.enable', 'Network.enable', 'Log.enable'].map((method) => send(method)));
 
-  const missing = await fetch('http://127.0.0.1:4173/missing-route');
+  const missing = await fetch(`${origin}/missing-route`);
   if (missing.status !== 404 || !(await missing.text()).includes('This signal')) throw new Error('custom 404 response failed');
 
   for (const width of [390, 1440]) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: width === 390 ? 844 : 1000, deviceScaleFactor: 1, mobile: width === 390 });
     for (const route of ['/', '/work/', '/about/', '/case-studies/uddns/', '/case-studies/aur-response-toolkit/', '/case-studies/privacy-devices/']) {
-      await send('Page.navigate', { url: `http://127.0.0.1:4173${route}` });
+      await send('Page.navigate', { url: `${origin}${route}` });
       for (let attempt = 0; attempt < 40; attempt++) {
         const state = await send('Runtime.evaluate', { expression: 'document.readyState', returnByValue: true });
         if (state.result.value === 'complete') break;
@@ -130,7 +131,7 @@ try {
     }
   }
 
-  await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
+  await send('Page.navigate', { url: `${origin}/` });
   await new Promise((done) => setTimeout(done, 200));
   await send('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: 'p', code: 'KeyP', windowsVirtualKeyCode: 80, modifiers: 1 });
   await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'p', code: 'KeyP', windowsVirtualKeyCode: 80, modifiers: 1 });
@@ -143,17 +144,24 @@ try {
   const commandPalette = await send('Runtime.evaluate', { expression: `(()=>{const picker=document.querySelector('.palette-picker');const dialog=document.querySelector('.command-palette');const input=dialog.querySelector('input');input.value='privacy';input.dispatchEvent(new Event('input',{bubbles:true}));const selected=dialog.querySelector('[aria-selected="true"]');const state={open:dialog.open,focused:document.activeElement===input,results:dialog.querySelectorAll('[role="option"]').length,selected:selected?.querySelector('b')?.textContent,pickerHidden:picker.hidden};dialog.close();return state})()`, returnByValue: true });
   const commandValue = commandPalette.result.value;
   if (!commandValue.open || !commandValue.focused || commandValue.results < 1 || commandValue.selected !== 'Privacy Devices' || !commandValue.pickerHidden || !pickerOpened.result.value || !pickerClosed.result.value) throw new Error(`command palette failed: ${JSON.stringify({ ...commandValue,pickerOpened:pickerOpened.result.value,pickerClosed:pickerClosed.result.value })}`);
+  const commonCommands = await send('Runtime.evaluate', { expression: `(()=>{const dialog=document.querySelector('.command-palette');const input=dialog.querySelector('input');input.value='';input.dispatchEvent(new Event('input',{bubbles:true}));return [...dialog.querySelectorAll('[role="option"] b')].map((item)=>item.textContent)})()`, returnByValue: true });
+  const commandLabels = commonCommands.result.value;
+  for (const label of ['Toolbox','Copy page link','Share page','Print page','View page source','Focus main content','Toggle day or night','Use Glacier palette']) if (!commandLabels.includes(label)) throw new Error(`missing common command: ${label}`);
+  if (commandLabels.length < 38) throw new Error(`too few common commands: ${commandLabels.length}`);
+  const commandSearchAndRun = await send('Runtime.evaluate', { expression: `(()=>{const dialog=document.querySelector('.command-palette');const input=dialog.querySelector('input');input.value='github privacy';input.dispatchEvent(new Event('input',{bubbles:true}));const matches=[...dialog.querySelectorAll('[role="option"] b')].map((item)=>item.textContent);input.value='use alpine palette';input.dispatchEvent(new Event('input',{bubbles:true}));dialog.querySelector('[role="option"]')?.click();return {matches,palette:document.documentElement.dataset.palette,checked:document.querySelector('.palette-picker input[name="portfolio-palette"]:checked')?.value}})()`, returnByValue: true });
+  const commandRunValue = commandSearchAndRun.result.value;
+  if (!commandRunValue.matches.includes('Privacy Devices repository') || commandRunValue.palette !== 'alpine' || commandRunValue.checked !== 'alpine') throw new Error(`command search or action failed: ${JSON.stringify(commandRunValue)}`);
   const paletteSelection = await send('Runtime.evaluate', { expression: `(()=>{const inputs=[...document.querySelectorAll('.palette-picker input[name="portfolio-palette"]')];const glacier=inputs.find((input)=>input.value==='glacier');glacier.checked=true;glacier.dispatchEvent(new Event('change',{bubbles:true}));const style=getComputedStyle(document.documentElement);return {count:inputs.length,selected:document.documentElement.dataset.palette,accent:style.getPropertyValue('--copper').trim()}})()`, returnByValue: true });
   const paletteValue = paletteSelection.result.value;
   if (paletteValue.count !== 4 || paletteValue.selected !== 'glacier' || !['#28769c','#70bce2'].includes(paletteValue.accent)) throw new Error(`palette selection failed: ${JSON.stringify(paletteValue)}`);
-  await send('Page.navigate', { url: 'http://127.0.0.1:4173/about/' });
+  await send('Page.navigate', { url: `${origin}/about/` });
   await new Promise((done) => setTimeout(done, 200));
   const persistedPalette = await send('Runtime.evaluate', { expression: `({selected:document.documentElement.dataset.palette,checked:document.querySelector('.palette-picker input:checked')?.value})`, returnByValue: true });
   if (persistedPalette.result.value.selected !== 'glacier' || persistedPalette.result.value.checked !== 'glacier') throw new Error(`palette persistence failed: ${JSON.stringify(persistedPalette.result.value)}`);
   const aboutNightPanel = await send('Runtime.evaluate', { expression: `(()=>{document.querySelector('.theme-options input[value="night"]').click();const panel=document.querySelector('.availability');const button=panel.querySelector('.button');return {page:getComputedStyle(document.body).backgroundColor,panel:getComputedStyle(panel).backgroundColor,panelText:getComputedStyle(panel).color,button:getComputedStyle(button).backgroundColor,buttonText:getComputedStyle(button).color}})()`, returnByValue: true });
   const aboutPanelValue = aboutNightPanel.result.value;
   if (aboutPanelValue.panel === 'rgb(255, 255, 255)' || aboutPanelValue.panel === aboutPanelValue.panelText || aboutPanelValue.button === aboutPanelValue.buttonText || aboutPanelValue.panel === aboutPanelValue.page) throw new Error(`about night panel failed: ${JSON.stringify(aboutPanelValue)}`);
-  await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
+  await send('Page.navigate', { url: `${origin}/` });
   await new Promise((done) => setTimeout(done, 200));
   const sceneThemes = await send('Runtime.evaluate', { expression: `(()=>{const themeInput=(value)=>document.querySelector('.theme-options input[value="'+value+'"]');const inspect=()=>({theme:document.documentElement.dataset.theme||'auto',night:getComputedStyle(document.querySelector('.hike-stars')).visibility,day:getComputedStyle(document.querySelector('.hike-day-sun')).visibility,sky:getComputedStyle(document.documentElement).getPropertyValue('--scene-sky').trim()});const day=themeInput('day');day.checked=true;day.dispatchEvent(new Event('change',{bubbles:true}));const dayState=inspect();const night=themeInput('night');night.checked=true;night.dispatchEvent(new Event('change',{bubbles:true}));const nightState=inspect();return {count:document.querySelectorAll('.theme-options input').length,dayState,nightState}})()`, returnByValue: true });
   const sceneThemeValue = sceneThemes.result.value;
@@ -172,7 +180,7 @@ try {
   }
   await send('Runtime.evaluate', { expression: `localStorage.removeItem('portfolio-palette');localStorage.removeItem('portfolio-theme');document.documentElement.dataset.palette='alpine';delete document.documentElement.dataset.theme` });
 
-  await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
+  await send('Page.navigate', { url: `${origin}/` });
   await new Promise((done) => setTimeout(done, 200));
   const motion = await send('Runtime.evaluate', { expression: `(()=>{
     const ddns=document.querySelector('.visual-ddns svg');
@@ -233,7 +241,7 @@ try {
   if(people.manRatio<4.5||people.manRatio>6.5||people.womanRatio<4.5||people.womanRatio>6.5||people.faces!==4||people.necks!==4||people.hands<7||people.shoes!==4||people.clothes!==4||people.dogs.length!==2||people.dogs.some((dog)=>dog.ratio<1.4||dog.ratio>2.1||dog.legDrop<6||dog.eye!==1||dog.feathering!==1))throw new Error(`SVG figure detail regression: ${JSON.stringify(people)}`);
 
   await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }, { name: 'prefers-reduced-motion', value: 'reduce' }] });
-  await send('Page.navigate', { url: 'http://127.0.0.1:4173/' });
+  await send('Page.navigate', { url: `${origin}/` });
   await new Promise((done) => setTimeout(done, 150));
   const preferences = await send('Runtime.evaluate', { expression: `({dark:matchMedia('(prefers-color-scheme: dark)').matches,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,ddns:getComputedStyle(document.querySelector('.ddns-packets')).display,flight:getComputedStyle(document.querySelector('.hobby-traveler')).display,landed:getComputedStyle(document.querySelector('.hobby-landed-disc')).display})`, returnByValue: true });
   if (!preferences.result.value.dark || !preferences.result.value.reduced || preferences.result.value.ddns !== 'none' || preferences.result.value.flight !== 'none' || preferences.result.value.landed === 'none') throw new Error(`preference emulation failed: ${JSON.stringify(preferences.result.value)}`);
