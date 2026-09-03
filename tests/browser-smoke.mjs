@@ -131,6 +131,12 @@ try {
     }
   }
 
+  await send('Page.navigate', { url: `${origin}/case-studies/uddns/` });
+  await new Promise((done) => setTimeout(done, 200));
+  const chapterScroll = await send('Runtime.evaluate', { expression: `(()=>{const section=document.querySelector('.case-story > section');const heading=section.querySelector('h2');return {snapType:getComputedStyle(document.documentElement).scrollSnapType,snapAlign:getComputedStyle(section).scrollSnapAlign,timelineSupported:CSS.supports('animation-timeline: view()'),headingTimeline:getComputedStyle(heading).animationTimeline}})()`, returnByValue: true });
+  const chapterScrollValue = chapterScroll.result.value;
+  if (!chapterScrollValue.snapType.includes('y') || chapterScrollValue.snapAlign !== 'start' || (chapterScrollValue.timelineSupported && chapterScrollValue.headingTimeline === 'auto')) throw new Error(`case chapter scroll treatment failed: ${JSON.stringify(chapterScrollValue)}`);
+
   await send('Page.navigate', { url: `${origin}/` });
   await new Promise((done) => setTimeout(done, 200));
   await send('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: 'p', code: 'KeyP', windowsVirtualKeyCode: 80, modifiers: 1 });

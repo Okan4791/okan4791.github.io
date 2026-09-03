@@ -268,7 +268,7 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .case-route a[data-visited] circle { stroke: var(--copper); }
 .case-route a:focus-visible circle { stroke: var(--ink); stroke-width: 7; }
 .case-story { counter-reset: case-chapter; }
-.case-story section { position: relative; scroll-margin-top: clamp(8.5rem,16vw,12rem); }
+.case-story section { position: relative; scroll-margin-top: clamp(8.5rem,16vw,12rem); scroll-snap-align:start; scroll-snap-stop:normal; }
 .case-story section::before { content: ''; position: absolute; top: clamp(4rem,8vw,7rem); bottom: clamp(4rem,8vw,7rem); left: -14px; width: 4px; background: var(--copper); opacity: 0; transition: opacity .25s ease; }
 .case-story section.is-active::before { opacity: 1; }
 .case-story section.is-active > .eyebrow { color: var(--copper); }
@@ -285,6 +285,15 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 @supports (animation-timeline: view()) {
   [data-reveal]:not(.hero-copy):not(.signal-map) { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 22%; }
   @keyframes reveal { from { opacity: .01; translate: 0 20px; } to { opacity: 1; translate: 0; } }
+  .case-story > section { view-timeline-name:--case-chapter; view-timeline-axis:block; }
+  .case-story > section > .eyebrow,.case-story > section > h2,.case-story > section > .prose { animation:case-chapter-reveal linear both; animation-timeline:--case-chapter; }
+  .case-story > section > .eyebrow { animation-range:entry 2% cover 22%; }
+  .case-story > section > h2 { animation-range:entry 5% cover 27%; }
+  .case-story > section > .prose { animation-range:entry 8% cover 32%; }
+  @keyframes case-chapter-reveal { from { opacity:.28; translate:0 18px; } to { opacity:1; translate:0; } }
+}
+@media (min-width:781px) and (min-height:700px) {
+  html:has(.case-story) { scroll-snap-type:y proximity; scroll-padding-top:clamp(8.5rem,16vw,12rem); }
 }
 @view-transition { navigation: auto; }
 ::view-transition-image-pair(root) { isolation: auto; }
@@ -323,7 +332,7 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 }
 @media (max-width: 430px) { .site-header nav a:first-child { display: none; } h1 { font-size: clamp(3.1rem, 16vw, 4.6rem); }.hero-actions { align-items: flex-start; flex-direction: column; }.signal-map { margin-inline: -8px; }.palette-panels { width:min(18rem,calc(100vw - 2rem));grid-template-columns:1fr;max-height:calc(100dvh - 6rem);overflow-y:auto; }.palette-picker .theme-options { border-top:1px solid var(--line); } }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }.hobby-traveler,.route-bigfoot,.route-bike,.ddns-packets { display: none; }.visual-shield .check { stroke-dashoffset: 0; }.hobby-landed-disc { display: block; }.hobby-route li,.hobby-route li > svg,.hobby-thrower,.throwing-arm { animation: none; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*) { animation-duration: .01ms !important; animation-delay: 0s !important; }
+  html { scroll-behavior:auto; scroll-snap-type:none!important; }.case-story section { scroll-snap-align:none; }.hobby-traveler,.route-bigfoot,.route-bike,.ddns-packets { display: none; }.visual-shield .check { stroke-dashoffset: 0; }.hobby-landed-disc { display: block; }.hobby-route li,.hobby-route li > svg,.hobby-thrower,.throwing-arm { animation: none; } *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*) { animation-duration: .01ms !important; animation-delay: 0s !important; }
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) { color-scheme: dark; --paper:#10232f;--snow:#152c39;--ink:#eaf6fa;--muted:#b5cbd4;--copper:#70bce2;--lichen:#83b7aa;--line:#385767;--scene-sky:#101936;--scene-sky-edge:#496a82;--scene-celestial:#f4e7b2;--art-hot:#ff7d91;--art-warm:#f5bd63;--art-success:#72d3b5;--art-cool:#72c1df;--art-violet:#b89ae9;--art-panel:#081923;--art-panel-line:#5e91a6;--art-on-panel:#f5fcff;--art-track:#7195a4;--art-forest:#78b995; }
