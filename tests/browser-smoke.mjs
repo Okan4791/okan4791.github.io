@@ -139,6 +139,9 @@ try {
 
   await send('Page.navigate', { url: `${origin}/` });
   await new Promise((done) => setTimeout(done, 200));
+  const scrollMotion = await send('Runtime.evaluate', { expression: `(()=>{const supported=CSS.supports('animation-timeline: view()');const visual=getComputedStyle(document.querySelector('.project-visual'));const copy=getComputedStyle(document.querySelector('.project-copy'));const detail=getComputedStyle(document.querySelector('.toolbox dl div'));return {supported,visualTimeline:visual.animationTimeline,copyTimeline:copy.animationTimeline,detailTimeline:detail.animationTimeline,visualRange:visual.animationRange}})()`, returnByValue: true });
+  const scrollMotionValue = scrollMotion.result.value;
+  if (scrollMotionValue.supported && [scrollMotionValue.visualTimeline,scrollMotionValue.copyTimeline,scrollMotionValue.detailTimeline].some((timeline)=>timeline === 'auto')) throw new Error(`homepage scroll motion failed: ${JSON.stringify(scrollMotionValue)}`);
   await send('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: 'p', code: 'KeyP', windowsVirtualKeyCode: 80, modifiers: 1 });
   await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'p', code: 'KeyP', windowsVirtualKeyCode: 80, modifiers: 1 });
   const pickerOpened = await send('Runtime.evaluate', { expression: `(()=>{const picker=document.querySelector('.palette-picker');return !picker.hidden&&picker.open})()`, returnByValue: true });
@@ -256,8 +259,8 @@ try {
   await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }, { name: 'prefers-reduced-motion', value: 'reduce' }] });
   await send('Page.navigate', { url: `${origin}/` });
   await new Promise((done) => setTimeout(done, 150));
-  const preferences = await send('Runtime.evaluate', { expression: `({dark:matchMedia('(prefers-color-scheme: dark)').matches,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,ddns:getComputedStyle(document.querySelector('.ddns-packets')).display,flight:getComputedStyle(document.querySelector('.hobby-traveler')).display,landed:getComputedStyle(document.querySelector('.hobby-landed-disc')).display})`, returnByValue: true });
-  if (!preferences.result.value.dark || !preferences.result.value.reduced || preferences.result.value.ddns !== 'none' || preferences.result.value.flight !== 'none' || preferences.result.value.landed === 'none') throw new Error(`preference emulation failed: ${JSON.stringify(preferences.result.value)}`);
+  const preferences = await send('Runtime.evaluate', { expression: `({dark:matchMedia('(prefers-color-scheme: dark)').matches,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,ddns:getComputedStyle(document.querySelector('.ddns-packets')).display,flight:getComputedStyle(document.querySelector('.hobby-traveler')).display,landed:getComputedStyle(document.querySelector('.hobby-landed-disc')).display,scrollAnimations:[...document.querySelectorAll('.project-visual,.project-copy,.principles li,.toolbox dl div')].map((item)=>getComputedStyle(item).animationName)})`, returnByValue: true });
+  if (!preferences.result.value.dark || !preferences.result.value.reduced || preferences.result.value.ddns !== 'none' || preferences.result.value.flight !== 'none' || preferences.result.value.landed === 'none' || preferences.result.value.scrollAnimations.some((name)=>name !== 'none')) throw new Error(`preference emulation failed: ${JSON.stringify(preferences.result.value)}`);
   if (captureEvidence) {
     await send('Runtime.evaluate', { expression: `document.documentElement.style.scrollBehavior='auto';document.querySelector('#off-the-clock').scrollIntoView({block:'end'})` });
     await new Promise((done) => setTimeout(done, 100));
