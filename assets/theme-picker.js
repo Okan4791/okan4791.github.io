@@ -75,22 +75,73 @@
     });
     document.body.append(picker);
 
+    const choosePalette = (name) => {
+      applyPalette(name);
+      const control = picker.querySelector(`input[name="portfolio-palette"][value="${name}"]`);
+      if (control) control.checked = true;
+    };
+    const chooseTheme = (theme) => {
+      applyTheme(theme);
+      const control = picker.querySelector(`input[name="portfolio-theme"][value="${theme}"]`);
+      if (control) control.checked = true;
+    };
+    const copyText = (value) => navigator.clipboard?.writeText(value).catch(() => {});
+    const sharePage = () => {
+      if (navigator.share) return navigator.share({ title: document.title, url: location.href }).catch(() => {});
+      return copyText(location.href);
+    };
+    const toggleTheme = () => {
+      const isNight = selectedTheme === 'night' || (selectedTheme === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+      chooseTheme(isNight ? 'day' : 'night');
+    };
+    const cyclePalette = () => {
+      const names = Object.keys(palettes);
+      choosePalette(names[(names.indexOf(selected) + 1) % names.length]);
+    };
+    const sourcePath = location.pathname.endsWith('/') ? `${location.pathname.slice(1)}index.html` : location.pathname.slice(1);
+    const pageSections = [
+      ['condition', 'Condition', 'The starting state and constraints'],
+      ['cause', 'Cause', 'What created the problem'],
+      ['correction', 'Correction', 'How the system was improved'],
+      ['confirm', 'Confirm', 'Results and verification'],
+    ].filter(([id]) => document.getElementById(id));
     const commands = [
       { label: 'Home', detail: 'Portfolio overview', group: 'Go to', href: '/' },
       { label: 'Selected work', detail: 'Featured projects', group: 'Go to', href: '/#selected-work' },
+      { label: 'Toolbox', detail: 'Languages, systems, and interfaces', group: 'Go to', href: '/#toolbox' },
+      { label: 'Off the clock', detail: 'Interests beyond the terminal', group: 'Go to', href: '/#off-the-clock' },
       { label: 'All work', detail: 'Project index', group: 'Go to', href: '/work/' },
       { label: 'About Michael', detail: 'Approach, principles, and interests', group: 'Go to', href: '/about/' },
+      ...pageSections.map(([id, label, detail]) => ({ label, detail, group: 'On this page', href: `#${id}`, keywords: `case study section ${id}` })),
       { label: 'uDDNS case study', detail: 'Dynamic DNS across multiple providers', group: 'Case study', href: '/case-studies/uddns/' },
       { label: 'AUR Response Toolkit', detail: 'Evidence-backed incident response', group: 'Case study', href: '/case-studies/aur-response-toolkit/' },
       { label: 'Privacy Devices', detail: 'Local-first privacy controls', group: 'Case study', href: '/case-studies/privacy-devices/' },
       { label: 'GitHub profile', detail: 'All repositories', group: 'Open', href: 'https://github.com/bolens' },
+      { label: 'uDDNS project site', detail: 'Documentation and installation', group: 'Open', href: 'https://bolens.github.io/uddns/' },
       { label: 'uDDNS repository', detail: 'Source on GitHub', group: 'Open', href: 'https://github.com/bolens/uddns' },
+      { label: 'AUR Response Toolkit project site', detail: 'Documentation and installation', group: 'Open', href: 'https://bolens.github.io/aur-response-toolkit/' },
       { label: 'AUR Response Toolkit repository', detail: 'Source on GitHub', group: 'Open', href: 'https://github.com/bolens/aur-response-toolkit' },
+      { label: 'Privacy Devices project site', detail: 'Documentation and installation', group: 'Open', href: 'https://bolens.github.io/omarchy-privacy-devices/' },
       { label: 'Privacy Devices repository', detail: 'Source on GitHub', group: 'Open', href: 'https://github.com/bolens/omarchy-privacy-devices' },
+      { label: 'Back', detail: 'Return to the previous page', group: 'Browser', keywords: 'history previous', run: () => history.back() },
+      { label: 'Forward', detail: 'Move to the next page in history', group: 'Browser', keywords: 'history next', run: () => history.forward() },
+      { label: 'Reload page', detail: 'Refresh the current page', group: 'Browser', keywords: 'refresh', run: () => location.reload() },
+      { label: 'Copy page link', detail: 'Copy this page’s URL', group: 'Page', keywords: 'share url clipboard', run: () => copyText(location.href) },
+      { label: 'Copy page title', detail: 'Copy the current document title', group: 'Page', keywords: 'clipboard', run: () => copyText(document.title) },
+      { label: 'Share page', detail: 'Open device sharing options', group: 'Page', keywords: 'send link url copy', run: sharePage },
+      { label: 'Print page', detail: 'Open the browser print dialog', group: 'Page', keywords: 'save pdf', run: () => window.print() },
+      { label: 'View page source', detail: 'Open this page in the portfolio repository', group: 'Open', keywords: 'github code html', href: `https://github.com/bolens/bolens.github.io/blob/main/${sourcePath || 'index.html'}` },
+      { label: 'Top of page', detail: 'Return to the beginning', group: 'On this page', keywords: 'scroll home', run: () => scrollTo({ top: 0, behavior: 'smooth' }) },
+      { label: 'Bottom of page', detail: 'Jump to the end of the page', group: 'On this page', keywords: 'scroll end footer', run: () => scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' }) },
+      { label: 'Focus main content', detail: 'Move keyboard focus past navigation', group: 'Accessibility', keywords: 'skip content', run: () => document.querySelector('main')?.focus() },
       { label: 'Choose palette', detail: 'Open color and appearance controls', group: 'Command', keywords: 'theme colors', run: () => { picker.hidden = false; picker.open = true; picker.querySelector('summary')?.focus(); } },
-      { label: 'Use system appearance', detail: 'Follow the device setting', group: 'Theme', keywords: 'auto light dark', run: () => applyTheme('auto') },
-      { label: 'Use day appearance', detail: 'Switch to the light scene', group: 'Theme', keywords: 'light', run: () => applyTheme('day') },
-      { label: 'Use night appearance', detail: 'Switch to the dark scene', group: 'Theme', keywords: 'dark', run: () => applyTheme('night') },
+      { label: 'Cycle color palette', detail: 'Move to the next color scheme', group: 'Palette', keywords: 'next theme colors', run: cyclePalette },
+      ...Object.entries(palettes).map(([name, palette]) => ({ label: `Use ${palette.label} palette`, detail: 'Change the site color scheme', group: 'Palette', keywords: `${name} theme colors`, run: () => choosePalette(name) })),
+      { label: 'Toggle day or night', detail: 'Switch between light and dark scenes', group: 'Theme', keywords: 'appearance mode', run: toggleTheme },
+      { label: 'Use system appearance', detail: 'Follow the device setting', group: 'Theme', keywords: 'auto light dark', run: () => chooseTheme('auto') },
+      { label: 'Use day appearance', detail: 'Switch to the light scene', group: 'Theme', keywords: 'light', run: () => chooseTheme('day') },
+      { label: 'Use night appearance', detail: 'Switch to the dark scene', group: 'Theme', keywords: 'dark', run: () => chooseTheme('night') },
+      { label: 'Reset color settings', detail: 'Restore Glacier and system appearance', group: 'Theme', keywords: 'default clear preferences', run: () => { choosePalette('glacier'); chooseTheme('auto'); } },
     ];
     const dialog = document.createElement('dialog');
     dialog.className = 'command-palette';
@@ -105,7 +156,11 @@
 
     const renderCommands = () => {
       const query = input.value.trim().toLowerCase();
-      visible = commands.filter((command) => `${command.label} ${command.detail} ${command.group} ${command.keywords ?? ''}`.toLowerCase().includes(query));
+      const terms = query.split(/\s+/).filter(Boolean);
+      visible = commands.filter((command) => {
+        const searchable = `${command.label} ${command.detail} ${command.group} ${command.keywords ?? ''}`.toLowerCase();
+        return terms.every((term) => searchable.includes(term));
+      });
       active = Math.min(active, Math.max(visible.length - 1, 0));
       results.innerHTML = visible.map((command, index) => `<button type="button" role="option" aria-selected="${index === active}" data-command-index="${index}"><span><b>${command.label}</b><small>${command.detail}</small></span><i>${command.group}</i></button>`).join('');
       empty.hidden = visible.length > 0;
