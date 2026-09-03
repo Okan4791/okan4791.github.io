@@ -415,7 +415,7 @@ h1 em, h2 em { color: var(--copper); font-weight: 400; }
 .bigfoot { transform-box:view-box; transform-origin:350px 643px; scale:1.1; filter:none; }
 .moth-wing { transform-box: view-box; }.wing-left { transform-origin: 752px 512px; animation: wing-left 6s ease-in-out infinite; }.wing-right { transform-origin: 758px 512px; animation: wing-right 6s ease-in-out infinite; }
 .roasting-arm { transform-box: view-box; animation: roast-turn 5s ease-in-out infinite; }
-.arm-bigfoot { transform-origin: 381px 523px; }.arm-alien { transform-origin: 469px 526px; animation-delay: -1.2s; }.arm-moth { transform-origin: 728px 526px; animation-delay: -2.4s; }.arm-dogman { transform-origin: 846px 527px; animation-delay: -3.6s; }
+.arm-bigfoot { transform-origin: 381px 523px; }.arm-alien { transform-origin: 520px 526px; animation-delay: -1.2s; }.arm-moth { transform-origin: 728px 526px; animation-delay: -2.4s; }.arm-dogman { transform-origin: 846px 527px; animation-delay: -3.6s; }
 .flame { transform-box: view-box; transform-origin: 608px 648px; }.flame-outer { animation: fire-dance .92s ease-in-out infinite alternate; }.flame-inner { animation: fire-dance .64s -.3s ease-in-out infinite alternate-reverse; }.flame-core { animation: fire-dance .48s -.16s ease-in-out infinite alternate; }
 .flame-side-left { transform-origin:588px 647px;animation:fire-side-left .73s -.2s ease-in-out infinite alternate; }.flame-side-right { transform-origin:626px 649px;animation:fire-side-right .81s -.55s ease-in-out infinite alternate; }
 .campfire-glow { transform-box:fill-box;transform-origin:center;animation:campfire-glow 2.3s ease-in-out infinite alternate; }
